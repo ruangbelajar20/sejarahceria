@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ujian Tengah Semester: Sejarah (Invasi Jepang)</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+    
+    <style>
+        body { user-select: none; -webkit-user-select: none; position: relative; z-index: 0; background-color: #f3f4f6;}
+        
+        .blur-screen { filter: blur(15px); pointer-events: none; user-select: none; }
+        
+        /* CSS SortableJS & Drag-Drop */
+        .draggable-item { 
+            cursor: grab; 
+            touch-action: none; /* Mencegah layar ikut scroll saat item diseret */
+        }
+        .draggable-item:active { cursor: grabbing; }
+        
+        .dropzone { 
+            min-height: 50px; 
+            border: 2px dashed #94a3b8; 
+            transition: all 0.2s ease; 
+        }
+        .dropzone.highlight { background-color: #eff6ff; border-color: #3b82f6; }
+        
+        .sortable-item { transition: box-shadow 0.2s ease; }
+        
+        /* Handle untuk tipe soal "Urutkan" */
+        .drag-handle {
+            cursor: grab;
+            padding: 10px;
+            margin-left: -10px;
+            touch-action: none;
+        }
+        .drag-handle:active { cursor: grabbing; }
+        
+        .sortable-ghost { 
+            opacity: 0.4; 
+            background-color: #e0f2fe; 
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); 
+        }
+        
+        .opt-item:hover { background-color: #f8fafc; }
+        
+        /* Kamera CCTV Tersembunyi */
+        .cctv-hidden {
+            position: fixed; bottom: 10px; right: 10px;
+            width: 320px; height: 240px;
+            opacity: 0.05; z-index: -9999; pointer-events: none;
+        }
+    </style>
+</head>
+<body class="text-gray-800 font-sans antialiased" oncontextmenu="return false;">
+
+    <video id="cctv-video" class="cctv-hidden" autoplay playsinline muted></video>
+    <canvas id="cctv-canvas" style="display:none;"></canvas>
+
+    <div id="login-screen" class="min-h-screen flex items-center justify-center p-4 relative z-10">
+        <div class="bg-white p-8 rounded-xl shadow-lg max-w-md w-full border-t-4 border-indigo-600">
+            <div class="text-center mb-6">
+                <i class="fas fa-landmark text-5xl text-indigo-600 mb-3"></i>
+                <h1 class="text-2xl font-bold text-gray-900">Sistem Ujian CBT</h1>
+                <p class="text-gray-500 text-sm">PTS Sejarah: Invasi Awal Jepang</p>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
+                    <input type="text" id="student-name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" placeholder="Masukkan nama lengkap" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Kelas</label>
+                    <select id="student-class" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                        <option value="">Pilih Kelas...</option>
+                        <option value="XI Farmasi 1">XI Farmasi</option>
+                        <option value="XI Keperawatan 1">XI Keperawatan 1</option>
+                        <option value="XI Keperawatan 2">XI Keperawatan 2</option>
+                    </select>
+                </div>
+                <div class="bg-red-50 p-4 rounded-lg border border-red-200 mt-4">
+                    <h3 class="text-sm font-bold text-red-800 flex items-center"><i class="fas fa-shield-alt mr-2"></i> PERHATIAN</h3>
+                    <ul class="text-xs text-red-700 mt-2 list-disc pl-4 space-y-1">
+                        <li><b>Sistem Proctoring Aktif:</b> Anda Wajib Mengizinkan Akses Kamera.</li>
+                        <li>Dilarang menggunakan layar terbagi (Split Screen).</li>
+                        <li>Dilarang membuka aplikasi lain/meninggalkan tab ujian.</li>
+                        <li>Soal akan diacak penuh. Ujian HANYA BISA DIKERJAKAN 1 KALI.</li>
+                    </ul>
+                </div>
+                <button onclick="startExam()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg mt-4 transition-colors">
+                    Mulai Ujian <i class="fas fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="exam-screen" class="hidden min-h-screen flex flex-col relative z-10 bg-gray-100">
+        <header class="bg-white shadow-md sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+                <div>
+                    <h2 class="font-bold text-lg text-gray-900" id="display-name">Nama Siswa</h2>
+                    <p class="text-sm text-gray-500" id="display-class">Kelas</p>
+                </div>
+                <div class="text-right flex items-center gap-2 sm:gap-4">
+                    <div class="bg-red-100 text-red-800 px-3 py-1 rounded-full font-bold text-xs sm:text-sm shadow-sm border border-red-200">
+                        Pelanggaran: <span id="cheat-counter">0</span>/3
+                    </div>
+                    <div class="bg-indigo-100 text-indigo-800 px-3 py-2 sm:px-4 rounded-lg font-mono font-bold text-lg flex items-center shadow-inner border border-indigo-200">
+                        <i class="far fa-clock mr-2"></i> <span id="timer">60:00</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-grow max-w-4xl mx-auto w-full p-3 sm:p-6 lg:p-8 relative z-20">
+            <form id="exam-form" class="space-y-6">
+                <div id="all-questions-container" class="space-y-6">
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> Menjelang tahun 1942, Jepang ibarat ponsel cerdas yang kehabisan baterai karena pasokan minyak bumi mereka dihentikan (diembargo) oleh Amerika Serikat. Dalam kondisi krisis energi tersebut, Jepang harus segera mencari "Powerbank" baru. Daerah manakah di Nusantara yang pertama kali diserang Jepang pada Januari 1942 untuk menyuplai bahan bakar mesin perang mereka?</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q1">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q1" value="A" class="mt-1"> <span>Batavia (Jakarta)</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q1" value="B" class="mt-1"> <span>Tarakan (Kalimantan Timur)</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q1" value="C" class="mt-1"> <span>Surabaya (Jawa Timur)</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q1" value="D" class="mt-1"> <span>Bukittinggi (Sumatera Barat)</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q1" value="E" class="mt-1"> <span>Denpasar (Bali)</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> Jepang menerapkan strategi militer "Gurita" atau "Lompat Katak" saat menginvasi Indonesia. Alih-alih langsung menembus Batavia sebagai pusat pemerintahan Belanda, mereka memilih merebut Tarakan, Balikpapan, dan Palembang secara berurutan. Analisis utama dari tujuan taktik ini adalah...</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q2">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q2" value="A" class="mt-1"> <span>Menghindari pertempuran laut terbuka dengan armada kapal Sekutu.</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q2" value="B" class="mt-1"> <span>Memecah belah kekuatan tentara Belanda yang berkumpul di Pulau Sumatera.</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q2" value="C" class="mt-1"> <span>Melumpuhkan sumber logistik dan energi agar mesin perang Jepang bisa mengepung Jawa.</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q2" value="D" class="mt-1"> <span>Mencari simpati tokoh-tokoh lokal di luar Jawa agar mau melakukan pemberontakan.</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q2" value="E" class="mt-1"> <span>Menguasai jalur perdagangan rempah-rempah sebelum direbut oleh militer Inggris.</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-teal-100 text-teal-800 text-xs font-bold px-2.5 py-1 rounded-md border border-teal-200"><i class="fas fa-check-square mr-1"></i> Pilihan Ganda Kompleks (Bisa pilih > 1)</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> Saat pertama kali mendarat, Jepang tidak langsung menunjukkan wajah penjajah. Mereka menggunakan taktik propaganda psikologis (mirip dengan fenomena <i>Love Bombing</i>). Manakah dari pernyataan berikut yang merupakan bukti taktik tersebut?</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q3">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="checkbox" name="q3" value="A" class="mt-1 rounded text-teal-600"> <span>Memaksa rakyat menyerahkan hasil panen padi sejak hari pertama.</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="checkbox" name="q3" value="B" class="mt-1 rounded text-teal-600"> <span>Memutarkan lagu kebangsaan Indonesia Raya di radio-radio lokal.</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="checkbox" name="q3" value="C" class="mt-1 rounded text-teal-600"> <span>Menyebarkan semboyan Gerakan 3A (Jepang Cahaya, Pelindung, Pemimpin Asia).</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="checkbox" name="q3" value="D" class="mt-1 rounded text-teal-600"> <span>Menutup seluruh fasilitas kesehatan peninggalan Belanda untuk mematikan rakyat.</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="checkbox" name="q3" value="E" class="mt-1 rounded text-teal-600"> <span>Mengaku sebagai "Saudara Tua" yang datang untuk membebaskan rakyat.</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-teal-100 text-teal-800 text-xs font-bold px-2.5 py-1 rounded-md border border-teal-200"><i class="fas fa-check-square mr-1"></i> Pilihan Ganda Kompleks (Bisa pilih > 1)</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> Belanda yang sudah berkuasa ratusan tahun ternyata runtuh kilat hanya dalam waktu sekitar 3 bulan dan menyerah di Kalijati (Maret 1942). Faktor-faktor yang menyebabkan keruntuhan cepat ini adalah...</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q4">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="checkbox" name="q4" value="A" class="mt-1 rounded text-teal-600"> <span>Terlalu merasa aman (berada di Zona Nyaman) sehingga kurang persiapan menghadapi invasi kilat modern.</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="checkbox" name="q4" value="B" class="mt-1 rounded text-teal-600"> <span>Persenjataan militer Belanda di Nusantara sudah habis dikirim untuk perang di Eropa.</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="checkbox" name="q4" value="C" class="mt-1 rounded text-teal-600"> <span>Strategi pertahanan Belanda hanya berpusat di Pulau Jawa dan mengabaikan pengamanan titik laut/luar pulau.</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="checkbox" name="q4" value="D" class="mt-1 rounded text-teal-600"> <span>Rakyat Nusantara sepenuhnya mengangkat senjata dan membantu tentara Belanda.</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="checkbox" name="q4" value="E" class="mt-1 rounded text-teal-600"> <span>Mentalitas pasukan Sekutu (termasuk Belanda) sudah jatuh sebelum bertempur habis-habisan.</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-purple-100 text-purple-800 text-xs font-bold px-2.5 py-1 rounded-md border border-purple-200"><i class="fas fa-hand-pointer mr-1"></i> Seret Jawaban (Drag & Drop)</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> Jodohkanlah pergerakan armada militer Jepang berikut dengan target wilayah operasinya! Sentuh kotak berwarna, tahan, dan geser ke dalam kotak putus-putus.</p>
+                        <div class="flex flex-col md:flex-row gap-6">
+                            <div class="w-full md:w-1/3 bg-purple-50 p-4 rounded-xl border border-purple-200">
+                                <div class="space-y-3 min-h-[50px]" id="source-q5">
+                                    <div id="q5_A" data-group="q5" class="draggable-item bg-purple-600 text-white font-medium text-sm p-3 rounded-lg shadow-md text-center">Palembang & Jawa Barat</div>
+                                    <div id="q5_B" data-group="q5" class="draggable-item bg-purple-600 text-white font-medium text-sm p-3 rounded-lg shadow-md text-center">Kilang Minyak Plaju</div>
+                                    <div id="q5_C" data-group="q5" class="draggable-item bg-purple-600 text-white font-medium text-sm p-3 rounded-lg shadow-md text-center">Tarakan & Sulawesi</div>
+                                </div>
+                            </div>
+                            <div class="w-full md:w-2/3 space-y-3">
+                                <div class="flex flex-col sm:flex-row items-center gap-3 bg-gray-50 p-3 rounded-lg border">
+                                    <div class="flex-1 text-sm font-medium text-gray-700 w-full text-center sm:text-left">Armada Sayap Timur (dari Filipina)</div>
+                                    <div class="dropzone w-full sm:w-48 rounded-lg flex items-center justify-center bg-white shadow-inner" data-group="q5"></div>
+                                </div>
+                                <div class="flex flex-col sm:flex-row items-center gap-3 bg-gray-50 p-3 rounded-lg border">
+                                    <div class="flex-1 text-sm font-medium text-gray-700 w-full text-center sm:text-left">Armada Sayap Barat (dari Indochina)</div>
+                                    <div class="dropzone w-full sm:w-48 rounded-lg flex items-center justify-center bg-white shadow-inner" data-group="q5"></div>
+                                </div>
+                                <div class="flex flex-col sm:flex-row items-center gap-3 bg-gray-50 p-3 rounded-lg border">
+                                    <div class="flex-1 text-sm font-medium text-gray-700 w-full text-center sm:text-left">Pasukan Payung (Paratroopers)</div>
+                                    <div class="dropzone w-full sm:w-48 rounded-lg flex items-center justify-center bg-white shadow-inner" data-group="q5"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-purple-100 text-purple-800 text-xs font-bold px-2.5 py-1 rounded-md border border-purple-200"><i class="fas fa-hand-pointer mr-1"></i> Seret Jawaban (Drag & Drop)</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> Mari kita refleksikan sejarah dengan bahasa hari ini. Jodohkan peristiwa sejarah berikut dengan istilah psikologi/remaja kekinian yang paling tepat!</p>
+                        <div class="flex flex-col md:flex-row gap-6">
+                            <div class="w-full md:w-1/3 bg-purple-50 p-4 rounded-xl border border-purple-200">
+                                <div class="space-y-3 min-h-[50px]" id="source-q6">
+                                    <div id="q6_A" data-group="q6" class="draggable-item bg-purple-600 text-white font-medium text-sm p-3 rounded-lg shadow-md text-center">Love Bombing</div>
+                                    <div id="q6_B" data-group="q6" class="draggable-item bg-purple-600 text-white font-medium text-sm p-3 rounded-lg shadow-md text-center">High Value Asset</div>
+                                    <div id="q6_C" data-group="q6" class="draggable-item bg-purple-600 text-white font-medium text-sm p-3 rounded-lg shadow-md text-center">Zona Nyaman</div>
+                                </div>
+                            </div>
+                            <div class="w-full md:w-2/3 space-y-3">
+                                <div class="flex flex-col sm:flex-row items-center gap-3 bg-gray-50 p-3 rounded-lg border">
+                                    <div class="flex-1 text-sm font-medium text-gray-700 w-full text-center sm:text-left">Sikap Belanda yang terlalu santai karena sudah lama berkuasa.</div>
+                                    <div class="dropzone w-full sm:w-48 rounded-lg flex items-center justify-center bg-white shadow-inner" data-group="q6"></div>
+                                </div>
+                                <div class="flex flex-col sm:flex-row items-center gap-3 bg-gray-50 p-3 rounded-lg border">
+                                    <div class="flex-1 text-sm font-medium text-gray-700 w-full text-center sm:text-left">Propaganda Jepang yang bersikap sangat manis di awal kedatangan.</div>
+                                    <div class="dropzone w-full sm:w-48 rounded-lg flex items-center justify-center bg-white shadow-inner" data-group="q6"></div>
+                                </div>
+                                <div class="flex flex-col sm:flex-row items-center gap-3 bg-gray-50 p-3 rounded-lg border">
+                                    <div class="flex-1 text-sm font-medium text-gray-700 w-full text-center sm:text-left">Nusantara yang terus diperebutkan karena kaya SDA.</div>
+                                    <div class="dropzone w-full sm:w-48 rounded-lg flex items-center justify-center bg-white shadow-inner" data-group="q6"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-orange-100 text-orange-800 text-xs font-bold px-2.5 py-1 rounded-md border border-orange-200"><i class="fas fa-list-ol mr-1"></i> Urutkan Jawaban</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> Urutkan rentetan peristiwa di bawah ini dari yang paling awal (atas) hingga yang paling akhir (bawah), mulai dari awal mula krisis hingga jatuhnya kekuasaan Belanda! <br><span class="text-sm text-gray-500 font-normal">*(Sentuh dan tahan ikon garis tiga di sebelah kiri, lalu geser ke atas/bawah)*</span></p>
+                        <ul class="sortable-list space-y-3 p-2" id="sort-q7">
+                            <li class="sortable-item bg-white border-2 border-gray-200 p-3 rounded-lg shadow-sm flex items-center gap-4 select-none" data-id="A"><i class="fas fa-grip-lines text-gray-400 text-xl drag-handle active:text-orange-500"></i><span class="text-sm font-medium text-gray-700">Jepang mendarat di Tarakan untuk merebut sumur minyak.</span></li>
+                            <li class="sortable-item bg-white border-2 border-gray-200 p-3 rounded-lg shadow-sm flex items-center gap-4 select-none" data-id="B"><i class="fas fa-grip-lines text-gray-400 text-xl drag-handle active:text-orange-500"></i><span class="text-sm font-medium text-gray-700">Amerika Serikat melakukan embargo minyak kepada Jepang.</span></li>
+                            <li class="sortable-item bg-white border-2 border-gray-200 p-3 rounded-lg shadow-sm flex items-center gap-4 select-none" data-id="C"><i class="fas fa-grip-lines text-gray-400 text-xl drag-handle active:text-orange-500"></i><span class="text-sm font-medium text-gray-700">Belanda menyerah tanpa syarat kepada Jepang di Kalijati.</span></li>
+                            <li class="sortable-item bg-white border-2 border-gray-200 p-3 rounded-lg shadow-sm flex items-center gap-4 select-none" data-id="D"><i class="fas fa-grip-lines text-gray-400 text-xl drag-handle active:text-orange-500"></i><span class="text-sm font-medium text-gray-700">Jepang menghancurkan pangkalan laut AS di Pearl Harbor.</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-orange-100 text-orange-800 text-xs font-bold px-2.5 py-1 rounded-md border border-orange-200"><i class="fas fa-list-ol mr-1"></i> Urutkan Jawaban</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> Rakyat sempat tertipu oleh propaganda Jepang. Agar kalian tidak mengulangi sejarah saat menerima info/tawaran manis (misal investasi online/lowongan kerja), urutkan langkah bernalar kritis berikut dari tahap awal hingga eksekusi yang tepat!</p>
+                        <ul class="sortable-list space-y-3 p-2" id="sort-q8">
+                            <li class="sortable-item bg-white border-2 border-gray-200 p-3 rounded-lg shadow-sm flex items-center gap-4 select-none" data-id="A"><i class="fas fa-grip-lines text-gray-400 text-xl drag-handle active:text-orange-500"></i><span class="text-sm font-medium text-gray-700">Mengambil keputusan akhir dengan penuh kesadaran dan perlindungan diri.</span></li>
+                            <li class="sortable-item bg-white border-2 border-gray-200 p-3 rounded-lg shadow-sm flex items-center gap-4 select-none" data-id="B"><i class="fas fa-grip-lines text-gray-400 text-xl drag-handle active:text-orange-500"></i><span class="text-sm font-medium text-gray-700">Menerima info/tawaran yang terlihat sangat menguntungkan di awal.</span></li>
+                            <li class="sortable-item bg-white border-2 border-gray-200 p-3 rounded-lg shadow-sm flex items-center gap-4 select-none" data-id="C"><i class="fas fa-grip-lines text-gray-400 text-xl drag-handle active:text-orange-500"></i><span class="text-sm font-medium text-gray-700">Melakukan verifikasi data dan mencari tahu motif di balik tawaran tersebut.</span></li>
+                            <li class="sortable-item bg-white border-2 border-gray-200 p-3 rounded-lg shadow-sm flex items-center gap-4 select-none" data-id="D"><i class="fas fa-grip-lines text-gray-400 text-xl drag-handle active:text-orange-500"></i><span class="text-sm font-medium text-gray-700">Menahan emosi gembira berlebih dan tidak langsung mengiyakan (Skeptis).</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-rose-100 text-rose-800 text-xs font-bold px-2.5 py-1 rounded-md border border-rose-200"><i class="fas fa-balance-scale mr-1"></i> Benar atau Salah</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> Evaluasi pernyataan mengenai taktik invasi militer Jepang berikut, lalu pilih "B" jika Benar atau "S" jika Salah untuk masing-masing pernyataan!</p>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left text-gray-700 border-collapse">
+                                <thead>
+                                    <tr class="bg-gray-100 border-b-2">
+                                        <th class="p-3 w-3/4 font-semibold">Pernyataan Analisis</th>
+                                        <th class="p-3 text-center font-bold text-green-700">B</th>
+                                        <th class="p-3 text-center font-bold text-red-700">S</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b hover:bg-gray-50">
+                                        <td class="p-3 leading-relaxed">Jepang langsung mengerahkan seluruh pasukan intinya ke Batavia untuk menangkap Gubernur Jenderal Belanda.</td>
+                                        <td class="p-3 text-center"><input type="radio" name="q9_1" value="B" class="w-5 h-5 cursor-pointer accent-green-600"></td>
+                                        <td class="p-3 text-center"><input type="radio" name="q9_1" value="S" class="w-5 h-5 cursor-pointer accent-red-600"></td>
+                                    </tr>
+                                    <tr class="border-b hover:bg-gray-50">
+                                        <td class="p-3 leading-relaxed">Daerah Tarakan dan Balikpapan menjadi target vital di awal invasi murni karena kekayaan tambang minyak buminya.</td>
+                                        <td class="p-3 text-center"><input type="radio" name="q9_2" value="B" class="w-5 h-5 cursor-pointer accent-green-600"></td>
+                                        <td class="p-3 text-center"><input type="radio" name="q9_2" value="S" class="w-5 h-5 cursor-pointer accent-red-600"></td>
+                                    </tr>
+                                    <tr class="border-b hover:bg-gray-50">
+                                        <td class="p-3 leading-relaxed">Penerjunan pasukan payung di Palembang bertujuan mengamankan kilang minyak agar tidak dihancurkan Belanda yang mundur (Bumi Hangus).</td>
+                                        <td class="p-3 text-center"><input type="radio" name="q9_3" value="B" class="w-5 h-5 cursor-pointer accent-green-600"></td>
+                                        <td class="p-3 text-center"><input type="radio" name="q9_3" value="S" class="w-5 h-5 cursor-pointer accent-red-600"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-rose-100 text-rose-800 text-xs font-bold px-2.5 py-1 rounded-md border border-rose-200"><i class="fas fa-balance-scale mr-1"></i> Benar atau Salah</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> Berdasarkan materi keruntuhan Hindia Belanda dan taktik Jepang, tentukan kebenaran dari poin refleksi sikap berikut ini!</p>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left text-gray-700 border-collapse">
+                                <thead>
+                                    <tr class="bg-gray-100 border-b-2">
+                                        <th class="p-3 w-3/4 font-semibold">Pernyataan Reflektif</th>
+                                        <th class="p-3 text-center font-bold text-green-700">B</th>
+                                        <th class="p-3 text-center font-bold text-red-700">S</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b hover:bg-gray-50">
+                                        <td class="p-3 leading-relaxed">Kekalahan kilat Belanda membuktikan bahwa bertahan di "Zona Nyaman" tanpa <i>upgrade skill</i> akan membuat kita mudah digeser oleh pesaing.</td>
+                                        <td class="p-3 text-center"><input type="radio" name="q10_1" value="B" class="w-5 h-5 cursor-pointer accent-green-600"></td>
+                                        <td class="p-3 text-center"><input type="radio" name="q10_1" value="S" class="w-5 h-5 cursor-pointer accent-red-600"></td>
+                                    </tr>
+                                    <tr class="border-b hover:bg-gray-50">
+                                        <td class="p-3 leading-relaxed">Semboyan Gerakan 3A adalah bukti kuat bahwa sejak awal Jepang memiliki niat yang murni dan tulus untuk memajukan pendidikan Nusantara.</td>
+                                        <td class="p-3 text-center"><input type="radio" name="q10_2" value="B" class="w-5 h-5 cursor-pointer accent-green-600"></td>
+                                        <td class="p-3 text-center"><input type="radio" name="q10_2" value="S" class="w-5 h-5 cursor-pointer accent-red-600"></td>
+                                    </tr>
+                                    <tr class="border-b hover:bg-gray-50">
+                                        <td class="p-3 leading-relaxed">Sejarah membuktikan bahwa kualitas SDM dan SDA Indonesia sangat berharga, sehingga sebagai pemuda kita harus kompeten agar tidak dimanfaatkan pihak luar.</td>
+                                        <td class="p-3 text-center"><input type="radio" name="q10_3" value="B" class="w-5 h-5 cursor-pointer accent-green-600"></td>
+                                        <td class="p-3 text-center"><input type="radio" name="q10_3" value="S" class="w-5 h-5 cursor-pointer accent-red-600"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-gray-800 text-white text-xs font-bold px-2.5 py-1 rounded-md"><i class="fas fa-pen mr-1"></i> Soal Uraian (Essay)</span></div>
+                        <label class="font-medium text-gray-800 mb-3 block text-justify leading-relaxed"><span class="q-num font-bold text-lg"></span> Jelaskan alasan utama mengapa Jepang menyasar daerah-daerah pinggiran seperti Tarakan dan Balikpapan terlebih dahulu sebelum memusatkan serangan ke ibu kota Hindia Belanda di Pulau Jawa! <br><span class="text-sm font-normal text-blue-600">*(Gunakan kata kunci "Krisis Energi" dan "Bahan Bakar" dalam jawabanmu).*</span></label>
+                        <textarea name="q11" rows="3" class="w-full p-4 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 bg-gray-50 focus:bg-white transition-colors" placeholder="Ketik jawaban analisis Anda di sini..."></textarea>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-gray-800 text-white text-xs font-bold px-2.5 py-1 rounded-md"><i class="fas fa-pen mr-1"></i> Soal Uraian (Essay)</span></div>
+                        <label class="font-medium text-gray-800 mb-3 block text-justify leading-relaxed"><span class="q-num font-bold text-lg"></span> Ketika tentara Jepang pertama kali mendarat, banyak rakyat Indonesia yang menyambut mereka dengan gembira dan sorak-sorai di pinggir jalan. Analisislah mengapa fenomena psikologis ini bisa terjadi dengan melihat kondisi penderitaan rakyat di era Belanda dan taktik propaganda awal Jepang!</label>
+                        <textarea name="q12" rows="4" class="w-full p-4 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 bg-gray-50 focus:bg-white transition-colors" placeholder="Ketik jawaban analisis Anda di sini..."></textarea>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-gray-800 text-white text-xs font-bold px-2.5 py-1 rounded-md"><i class="fas fa-pen mr-1"></i> Soal Uraian (Essay)</span></div>
+                        <label class="font-medium text-gray-800 mb-3 block text-justify leading-relaxed"><span class="q-num font-bold text-lg"></span> Pemerintah Hindia Belanda hancur lebur oleh strategi kilat Jepang hanya dalam hitungan bulan karena terlalu bersantai di "Zona Nyaman" (Comfort Zone) akibat kekuasaan 300 tahun. Jika dianalogikan dengan kehidupanmu saat ini, apa bahaya besar dari sikap merasa paling aman (<i>overconfidence</i>) terhadap persaingan di masa depan?</label>
+                        <textarea name="q13" rows="3" class="w-full p-4 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 bg-gray-50 focus:bg-white transition-colors" placeholder="Ketik refleksi diri Anda di sini..."></textarea>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-gray-800 text-white text-xs font-bold px-2.5 py-1 rounded-md"><i class="fas fa-pen mr-1"></i> Soal Uraian (Essay)</span></div>
+                        <label class="font-medium text-gray-800 mb-3 block text-justify leading-relaxed"><span class="q-num font-bold text-lg"></span> Bandingkan taktik yang digunakan tentara Belanda dalam bertahan dengan taktik Jepang saat menyerang pada awal tahun 1942. Menurut analisismu, apa kelemahan operasional paling fatal dari militer Belanda yang membuat wilayah mereka direbut begitu cepat dari tangan mereka?</label>
+                        <textarea name="q14" rows="4" class="w-full p-4 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 bg-gray-50 focus:bg-white transition-colors" placeholder="Ketik komparasi dan analisis strategis Anda di sini..."></textarea>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200 border-l-4 border-l-indigo-500">
+                        <div class="mb-3"><span class="bg-gray-800 text-white text-xs font-bold px-2.5 py-1 rounded-md"><i class="fas fa-pen mr-1"></i> Uraian & Studi Kasus Profesi</span></div>
+                        <label class="font-medium text-gray-800 mb-3 block text-justify leading-relaxed"><span class="q-num font-bold text-lg"></span> Di masa lalu, Indonesia dijajah karena kekayaan alamnya (SDA). Di era modern dan pasar bebas saat ini, model "penjajahan" beralih ke perebutan peluang melalui kualitas Sumber Daya Manusia (SDM), termasuk tenaga medis. <br><br>Sebagai siswa kelas <b>XI Keperawatan</b>, strategi "pertahanan diri" spesifik apa yang harus kamu asah mulai hari ini agar karier/profesimu di masa depan tidak kalah bersaing dengan tenaga kesehatan dari luar negeri yang masuk ke Indonesia?</label>
+                        <textarea name="q15" rows="5" class="w-full p-4 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 bg-gray-50 focus:bg-white transition-colors" placeholder="Jabarkan rencana strategi kompetensi keperawatan Anda di masa depan..."></textarea>
+                    </div>
+
+                </div> <div class="flex justify-end pt-6 pb-12">
+                    <button type="button" id="btn-submit" onclick="confirmSubmit()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-8 sm:px-12 rounded-xl shadow-lg flex items-center gap-3 transition-transform active:scale-95">
+                        <i class="fas fa-paper-plane text-xl"></i> Selesai & Kirim Jawaban
+                    </button>
+                </div>
+            </form>
+        </main>
+    </div>
+
+    <script>
+        // MASUKKAN URL GOOGLE SCRIPT ANDA DI SINI
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyzmdexMSXNLoou5wtiTwV6w_b4i7W8xP0YOmG2avXzrWKkQqVWt53i6J4hBptmYhB4Sg/exec'; 
+        
+        let studentName = "", studentClass = "";
+        let cheatCount = 0, examActive = false;
+        let timeLeft = 3600, timerInterval;
+        let initialWidth = window.innerWidth;
+        let cctvInterval; 
+        
+        let isGracePeriod = false; 
+        let ignoredFirstStrike = false; 
+        let isWarningOpen = false; 
+
+        window.onload = function() {
+            if (localStorage.getItem('pts_sejarah_selesai') === 'true') {
+                document.getElementById('login-screen').innerHTML = `
+                    <div class="bg-white p-8 rounded-xl shadow-lg max-w-md w-full border-t-4 border-red-600 text-center">
+                        <i class="fas fa-user-lock text-5xl text-red-600 mb-4"></i>
+                        <h2 class="text-2xl font-bold text-gray-900 mb-2">Akses Ditolak</h2>
+                        <p class="text-gray-600">Anda sudah mengerjakan ujian ini di perangkat ini.</p>
+                    </div>`;
+            }
+        };
+
+        function startExam() {
+            studentName = document.getElementById('student-name').value.trim();
+            studentClass = document.getElementById('student-class').value;
+            if (!studentName || !studentClass) {
+                Swal.fire({ icon: 'error', title: 'Oops...', text: 'Silakan isi Nama dan Kelas terlebih dahulu!' });
+                return;
+            }
+
+            Swal.fire({
+                title: 'Mohon Izinkan Kamera',
+                text: 'Sistem Proctoring membutuhkan akses kamera Anda untuk memulai ujian.',
+                icon: 'info',
+                allowOutsideClick: false,
+                didOpen: () => { Swal.showLoading(); }
+            });
+
+            const video = document.getElementById('cctv-video');
+            
+            navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+            .then(function(stream) {
+                video.srcObject = stream;
+                video.play().catch(e => console.log(e));
+                
+                Swal.close(); 
+                
+                randomizeExam(); // Jalankan pengacakan FULL MIX
+                document.getElementById('display-name').textContent = studentName;
+                document.getElementById('display-class').textContent = studentClass;
+                
+                const elem = document.documentElement;
+                if (elem.requestFullscreen) { elem.requestFullscreen().catch(err => {}); }
+
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('exam-screen').classList.remove('hidden');
+                
+                examActive = true; 
+                
+                isGracePeriod = true;
+                window.focus(); 
+                setTimeout(() => { isGracePeriod = false; }, 10000);
+
+                startTimer(); 
+                initSortableJS(); 
+                
+                setTimeout(captureCCTV, 5000); 
+                cctvInterval = setInterval(captureCCTV, 60000); 
+            })
+            .catch(function(err) {
+                Swal.fire({
+                    icon: 'error', title: 'Akses Ditolak',
+                    text: 'Anda tidak dapat mengikuti ujian tanpa mengizinkan akses kamera.',
+                    confirmButtonText: 'Coba Lagi'
+                });
+            });
+        }
+
+        function captureCCTV() {
+            if (!examActive) return;
+            const video = document.getElementById('cctv-video');
+            const canvas = document.getElementById('cctv-canvas');
+            
+            canvas.width = 320; canvas.height = 240;
+            const context = canvas.getContext('2d');
+            
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.6);
+            
+            const timeNow = new Date().toLocaleTimeString('id-ID').replace(/[:.]/g, '-');
+            const fileName = `${studentName.replace(/\s+/g, '_')}_${studentClass.replace(/\s+/g, '')}_${timeNow}.jpg`;
+
+            const payload = { type: "cctv", nama: studentName, filename: fileName, image: dataUrl };
+
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST', mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(payload)
+            }).catch(e => console.log("Fetch Error")); 
+        }
+
+        // FUNGSI BARU: ACAK SOAL TOTAL (MIX RANDOMIZATION 1-15)
+        function randomizeExam() {
+            // 1. Acak Opsi Jawaban PG/PGK/Drag-Drop (Elemen di dalam soal)
+            const shuffleElements = (containerId, itemClass) => {
+                const container = document.getElementById(containerId);
+                if (!container) return;
+                const items = Array.from(container.querySelectorAll(itemClass));
+                for (let i = items.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [items[i], items[j]] = [items[j], items[i]]; 
+                }
+                items.forEach(item => container.appendChild(item)); 
+            };
+
+            ['opt-q1','opt-q2','opt-q3','opt-q4'].forEach(id => shuffleElements(id, '.opt-item'));
+            ['source-q5','source-q6'].forEach(id => shuffleElements(id, '.draggable-item'));
+            ['sort-q7','sort-q8'].forEach(id => shuffleElements(id, '.sortable-item'));
+
+            // 2. Acak Urutan Seluruh Soal (Dari PG sampai Essay menjadi acak 1-15)
+            const masterContainer = document.getElementById('all-questions-container');
+            const questionBlocks = Array.from(masterContainer.querySelectorAll('.q-block'));
+            
+            // Algoritma Fisher-Yates untuk blok soal
+            for (let i = questionBlocks.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [questionBlocks[i], questionBlocks[j]] = [questionBlocks[j], questionBlocks[i]];
+            }
+            // Tempel ulang blok soal yang sudah diacak ke kontainer
+            questionBlocks.forEach(block => masterContainer.appendChild(block));
+
+            // 3. Tulis ulang penomoran 1 sampai 15 berurutan
+            let currentNumber = 1;
+            document.querySelectorAll('.q-block .q-num').forEach(span => {
+                span.textContent = currentNumber + ". ";
+                currentNumber++;
+            });
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                if(timeLeft <= 0) { clearInterval(timerInterval); autoSubmit("Waktu Habis!"); return; }
+                timeLeft--;
+                const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+                const s = (timeLeft % 60).toString().padStart(2, '0');
+                document.getElementById('timer').textContent = `${m}:${s}`;
+                if (timeLeft === 300) {
+                    document.getElementById('timer').classList.replace('bg-indigo-100', 'bg-red-100');
+                    document.getElementById('timer').classList.replace('text-indigo-800', 'text-red-800');
+                    document.getElementById('timer').classList.replace('border-indigo-200', 'border-red-200');
+                }
+            }, 1000);
+        }
+
+        // SISTEM ANTI CHEAT (TIDAK BERUBAH)
+        function handleCheatDetected(reason) {
+            if (!examActive || isGracePeriod || isWarningOpen) return; 
+            if (!ignoredFirstStrike) { ignoredFirstStrike = true; return; }
+
+            cheatCount++; 
+            document.getElementById('cheat-counter').textContent = cheatCount;
+            document.getElementById('exam-screen').classList.remove('blur-screen');
+
+            if (cheatCount >= 3) {
+                autoSubmit("Anda telah melanggar aturan keamanan (Pindah Tab/Layar) lebih dari 3 kali.");
+            } else {
+                isWarningOpen = true;
+                Swal.fire({ 
+                    icon: 'warning', title: 'Peringatan Pelanggaran!', 
+                    text: `${reason}. Peringatan ${cheatCount} dari 3. Jika 3 kali, ujian otomatis terkunci.`, 
+                    confirmButtonColor: '#d33', allowOutsideClick: false
+                }).then(() => { isWarningOpen = false; });
+            }
+        }
+
+        setInterval(() => {
+            if (!examActive) return;
+            if (!isGracePeriod && !document.hasFocus()) {
+                document.getElementById('exam-screen').classList.add('blur-screen'); 
+                handleCheatDetected("Membuka Layar Lain / Kehilangan Fokus");
+            } else if (document.hasFocus()) {
+                document.getElementById('exam-screen').classList.remove('blur-screen');
+            }
+        }, 2000);
+
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            if (!examActive) return;
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                let widthChange = Math.abs(window.innerWidth - initialWidth);
+                if (!isGracePeriod && widthChange > 150) { handleCheatDetected("Terdeteksi menggunakan Split Screen"); }
+                initialWidth = window.innerWidth;
+            }, 500); 
+        });
+
+        document.addEventListener("visibilitychange", () => {
+            if (examActive && document.hidden && !isGracePeriod) handleCheatDetected("Meninggalkan Tab Ujian");
+        });
+        document.addEventListener('keydown', (e) => {
+            if (!examActive) return;
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key)) || (e.ctrlKey && e.key === 'U')) {
+                e.preventDefault(); handleCheatDetected("Membuka Developer Tools");
+            }
+            if (e.ctrlKey && ['c','v','x'].includes(e.key)) e.preventDefault();
+        });
+        document.addEventListener('keyup', (e) => {
+            if (examActive && (e.key === 'PrintScreen' || e.keyCode === 44)) {
+                navigator.clipboard.writeText(''); handleCheatDetected("Mencoba Screenshot");
+            }
+        });
+
+        // SORTABLE JS UNTUK DRAG & DROP DAN URUTKAN (MOBILE OPTIMIZED)
+        function initSortableJS() {
+            const dropzoneHighlight = {
+                onChoose: function (evt) { document.querySelectorAll('.dropzone').forEach(d => d.classList.add('highlight')); },
+                onUnchoose: function (evt) { document.querySelectorAll('.dropzone').forEach(d => d.classList.remove('highlight')); }
+            };
+
+            ['q5', 'q6'].forEach(group => {
+                new Sortable(document.getElementById(`source-${group}`), {
+                    group: { name: group, put: true }, animation: 150, sort: false, ...dropzoneHighlight
+                });
+                document.querySelectorAll(`.dropzone[data-group="${group}"]`).forEach(zone => {
+                    new Sortable(zone, {
+                        group: { name: group, put: function (to) { return to.el.children.length < 1; } },
+                        animation: 150, ...dropzoneHighlight
+                    });
+                });
+            });
+
+            ['sort-q7', 'sort-q8'].forEach(id => {
+                new Sortable(document.getElementById(id), {
+                    animation: 150, handle: '.drag-handle', ghostClass: 'sortable-ghost'
+                });
+            });
+        }
+
+        function confirmSubmit() {
+            Swal.fire({ 
+                title: 'Kirim Jawaban?', text: "Pastikan seluruh soal telah terjawab. Ujian tidak bisa diulang!", 
+                icon: 'question', showCancelButton: true, confirmButtonColor: '#4f46e5', cancelButtonColor: '#ef4444',
+                confirmButtonText: 'Ya, Kirim Data!', cancelButtonText: 'Batal' 
+            }).then((result) => { if (result.isConfirmed) processSubmission(); });
+        }
+
+        function autoSubmit(reason) {
+            examActive = false; clearInterval(timerInterval); clearInterval(cctvInterval); 
+            const video = document.getElementById('cctv-video');
+            if (video.srcObject) { video.srcObject.getTracks().forEach(track => track.stop()); }
+            document.getElementById('exam-screen').classList.remove('blur-screen');
+
+            Swal.fire({ 
+                title: 'ANDA DIDISKUALIFIKASI!', text: reason, icon: 'error', allowOutsideClick: false, 
+                confirmButtonText: 'Mengerti & Kirim Sisa Jawaban', confirmButtonColor: '#ef4444'
+            }).then(() => { processSubmission(); });
+        }
+
+        function processSubmission() {
+            examActive = false; clearInterval(timerInterval); clearInterval(cctvInterval); 
+            const video = document.getElementById('cctv-video');
+            if (video.srcObject) { video.srcObject.getTracks().forEach(track => track.stop()); }
+            document.getElementById('exam-screen').classList.remove('blur-screen');
+            
+            const btnSubmit = document.getElementById('btn-submit');
+            btnSubmit.disabled = true; btnSubmit.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Memproses...`;
+
+            const form = document.getElementById('exam-form'); const formData = new FormData(form);
+            
+            const getDropAnswers = (group) => {
+                let ans = [];
+                document.querySelectorAll(`[data-group="${group}"].dropzone`).forEach(z => {
+                    ans.push(z.children.length > 0 ? z.children[0].id.replace(`${group}_`, '') : '-');
+                });
+                return ans.join(',');
+            };
+            const getSortAnswers = (id) => Array.from(document.getElementById(id).children).map(li => li.dataset.id).join(',');
+            
+            // Penggabungan Multi Radio Benar Salah (Q9 dan Q10)
+            const getMultiRadio = (baseName, count) => {
+                let res = [];
+                for(let i=1; i<=count; i++) { res.push(formData.get(`${baseName}_${i}`) || '-'); }
+                return res.join(',');
+            };
+
+            const dataToSubmit = {
+                type: "ujian", timestamp: new Date().toLocaleString('id-ID'),
+                nama: studentName, kelas: studentClass, pelanggaran: cheatCount,
+                q1: formData.get('q1') || '', q2: formData.get('q2') || '',
+                q3: formData.getAll('q3').join(',') || '', q4: formData.getAll('q4').join(',') || '',
+                q5: getDropAnswers('q5'), q6: getDropAnswers('q6'),
+                q7: getSortAnswers('sort-q7'), q8: getSortAnswers('sort-q8'),
+                q9: getMultiRadio('q9', 3), q10: getMultiRadio('q10', 3), // Menangkap q9_1 s.d q9_3 & q10_1 s.d q10_3
+                q11: formData.get('q11') || '', q12: formData.get('q12') || '',
+                q13: formData.get('q13') || '', q14: formData.get('q14') || '', q15: formData.get('q15') || ''
+            };
+
+            Swal.fire({ title: 'Mengirim Jawaban...', html: 'Jangan tutup aplikasi ini.', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(dataToSubmit)
+            }).then(() => {
+                localStorage.setItem('pts_sejarah_selesai', 'true');
+                Swal.fire({ icon: 'success', title: 'Berhasil!', text: 'Jawaban tersimpan di server.', allowOutsideClick: false, confirmButtonText: 'Tutup Aplikasi' }).then(() => {
+                    if (document.exitFullscreen) document.exitFullscreen().catch(()=>{});
+                    document.body.innerHTML = `<div class="min-h-screen flex items-center justify-center bg-gray-100"><div class="text-center p-8"><i class="fas fa-check-circle text-6xl text-green-500 mb-4"></i><h1 class="text-3xl font-bold text-gray-800 mb-2">Terima Kasih</h1><p class="text-gray-600">Ujian telah selesai. Silakan tutup browser Anda.</p></div></div>`;
+                });
+            }).catch(err => {
+                btnSubmit.disabled = false; btnSubmit.innerHTML = `<i class="fas fa-paper-plane text-xl"></i> Selesai & Kirim Jawaban`;
+                Swal.fire({ icon: 'error', title: 'Koneksi Gagal', text: 'Pastikan internet Anda stabil.' });
+            });
+        }
+    </script>
+</body>
+</html>

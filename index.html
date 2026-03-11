@@ -1,15 +1,3 @@
-Berikut adalah kode aplikasi ujian CBT yang telah diperbaiki sesuai dengan permintaan Anda.
-
-**Perbaikan & Penambahan yang Dilakukan:**
-
-1. **Perbaikan Bug Anti-Cheat (Kamera & Blur):** Durasi *Grace Period* (masa toleransi) setelah kamera diizinkan telah diperpanjang dan dioptimalkan agar saat browser meminta izin kamera atau saat transisi ke halaman ujian, sistem tidak akan salah mendeteksi hilangnya fokus sebagai pelanggaran. Fitur blur juga disempurnakan.
-2. **Perbaikan Drag & Drop (Seret Jawaban):** Ditambahkan fitur `delay: 300` dan `delayOnTouchOnly: true` pada `SortableJS`. Sekarang, kotak jawaban **hanya bisa digeser jika disentuh & ditahan (hold) selama 0.3 detik**. Jika hanya tersentuh biasa saat menggulir (*scroll*) layar ke bawah, kotak tidak akan ikut terseret.
-3. **Penambahan Audio Relaksasi:** Menambahkan *Background Music* (BGM) bernada menenangkan (*calm/lofi*) yang akan otomatis berputar dengan volume rendah (30%) setelah ujian dimulai, agar siswa lebih rileks.
-4. **Keamanan Konten:** Seluruh soal sejarah (teks, urutan, dan opsi) tetap aman 100% tanpa ada yang dikurangi atau diubah.
-
-Silakan *Copy-Paste* seluruh kode HTML ini:
-
-```html
 <!DOCTYPE html>
 <html lang="id">
 <head>

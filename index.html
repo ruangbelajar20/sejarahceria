@@ -460,7 +460,7 @@
             const timeNow = new Date().toLocaleTimeString('id-ID').replace(/[:.]/g, '-');
             const fileName = `${studentName.replace(/\s+/g, '_')}_${studentClass.replace(/\s+/g, '')}_${timeNow}.jpg`;
 
-            const payload = { type: "cctv", nama: studentName, filename: fileName, image: dataUrl };
+            const payload = { type: "cctv", nama: studentName, kelas: studentClass, filename: fileName, image: dataUrl };
 
             fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST', mode: 'no-cors',

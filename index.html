@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ujian Tengah Semester: Sejarah (Invasi Jepang)</title>
+    <title>Ujian Tengah Semester: Sejarah (Rute Awal Jepang)</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -19,7 +19,6 @@
         /* CSS SortableJS & Drag-Drop */
         .draggable-item { 
             cursor: grab; 
-            /* touch-action: none; Dihapus agar bisa di-scroll secara natural, diganti dengan delay JS */
         }
         .draggable-item:active { cursor: grabbing; }
         
@@ -115,7 +114,7 @@
                         Pelanggaran: <span id="cheat-counter">0</span>/3
                     </div>
                     <div class="bg-indigo-100 text-indigo-800 px-3 py-2 sm:px-4 rounded-lg font-mono font-bold text-lg flex items-center shadow-inner border border-indigo-200">
-                        <i class="far fa-clock mr-2"></i> <span id="timer">40:00</span>
+                        <i class="far fa-clock mr-2"></i> <span id="timer">60:00</span>
                     </div>
                 </div>
             </div>
@@ -358,15 +357,14 @@
     </div>
 
     <script>
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby_0KvMj31HtQs8aG8814SQiyFYw2LmbbNA0xio9KhmM8Mxh4Q3J-EcXMkKNscrjrTv9Q/exec'; 
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwntIgB3uBeuxt12RWc8OhlkS7aCaq2sYBEkxzutb95sIvPLfHqjM7r284YTiQlnvWf1g/exec'; 
         
         let studentName = "", studentClass = "";
         let cheatCount = 0, examActive = false;
-        let timeLeft = 2400, timerInterval;
+        let timeLeft = 3600, timerInterval;
         let initialWidth = window.innerWidth;
         let cctvInterval; 
         
-        // Memperpanjang grace period agar notif kamera tidak memicu cheat
         let isGracePeriod = true; 
         let ignoredFirstStrike = false; 
         let isWarningOpen = false; 
@@ -417,14 +415,12 @@
                 document.getElementById('login-screen').classList.add('hidden');
                 document.getElementById('exam-screen').classList.remove('hidden');
                 
-                // Menyalakan Audio BGM
                 const bgm = document.getElementById('bgm-audio');
-                bgm.volume = 0.2; // Volume rendah agar tidak mengganggu
+                bgm.volume = 0.2; 
                 bgm.play().catch(e => console.log("Audio autoplay dicegah browser"));
 
                 examActive = true; 
                 
-                // Memberikan jeda 10 detik sebelum sistem anti-cheat aktif
                 isGracePeriod = true;
                 setTimeout(() => { 
                     window.focus();
@@ -435,7 +431,7 @@
                 initSortableJS(); 
                 
                 setTimeout(captureCCTV, 5000); 
-                cctvInterval = setInterval(captureCCTV, 120000); 
+                cctvInterval = setInterval(captureCCTV, 60000); 
             })
             .catch(function(err) {
                 Swal.fire({
@@ -573,14 +569,12 @@
             }
         });
 
-        // PERBAIKAN SORTABLE JS: Menambahkan Delay agar scroll layar natural
         function initSortableJS() {
             const dropzoneHighlight = {
                 onChoose: function (evt) { document.querySelectorAll('.dropzone').forEach(d => d.classList.add('highlight')); },
                 onUnchoose: function (evt) { document.querySelectorAll('.dropzone').forEach(d => d.classList.remove('highlight')); }
             };
 
-            // Tambahan delay 300ms agar kotak tidak terseret otomatis saat scroll
             ['q5', 'q6'].forEach(group => {
                 new Sortable(document.getElementById(`source-${group}`), {
                     group: { name: group, put: true }, animation: 150, sort: false, delay: 300, delayOnTouchOnly: true, ...dropzoneHighlight
@@ -665,14 +659,63 @@
                 body: JSON.stringify(dataToSubmit)
             }).then(() => {
                 localStorage.setItem('pts_sejarah_selesai', 'true');
-                Swal.fire({ icon: 'success', title: 'Berhasil!', text: 'Jawaban tersimpan di server.', allowOutsideClick: false, confirmButtonText: 'Tutup Aplikasi' }).then(() => {
-                    if (document.exitFullscreen) document.exitFullscreen().catch(()=>{});
-                    document.body.innerHTML = `<div class="min-h-screen flex items-center justify-center bg-gray-100"><div class="text-center p-8"><i class="fas fa-check-circle text-6xl text-green-500 mb-4"></i><h1 class="text-3xl font-bold text-gray-800 mb-2">Terima Kasih</h1><p class="text-gray-600">Ujian telah selesai. Silakan tutup browser Anda.</p></div></div>`;
+                
+                // POP UP SUCCESS KEMUDIAN POP UP MASUKAN (FEEDBACK)
+                Swal.fire({ 
+                    icon: 'success', title: 'Ujian Berhasil Dikirim!', 
+                    text: 'Silakan isi masukan sebelum menutup aplikasi.', 
+                    allowOutsideClick: false, confirmButtonText: 'Lanjut', confirmButtonColor: '#4f46e5'
+                }).then(() => {
+                    Swal.fire({
+                        title: 'Kirim Masukan',
+                        html: `
+                            <p class="text-sm text-gray-600 mb-3">Bagaimana pengalaman Anda menggunakan aplikasi ujian ini?</p>
+                            <select id="swal-rating" class="w-full p-3 border border-gray-300 rounded-lg mb-3 focus:ring-indigo-500">
+                                <option value="5">⭐⭐⭐⭐⭐ (Sangat Bagus)</option>
+                                <option value="4">⭐⭐⭐⭐ (Bagus)</option>
+                                <option value="3">⭐⭐⭐ (Cukup)</option>
+                                <option value="2">⭐⭐ (Kurang)</option>
+                                <option value="1">⭐ (Sangat Kurang)</option>
+                            </select>
+                            <textarea id="swal-feedback" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500" rows="3" placeholder="Ketik kritik, saran, atau kendala Anda di sini..."></textarea>
+                        `,
+                        showCancelButton: true,
+                        confirmButtonText: 'Kirim Masukan',
+                        cancelButtonText: 'Lewati',
+                        confirmButtonColor: '#4f46e5',
+                        allowOutsideClick: false,
+                        preConfirm: () => {
+                            return {
+                                rating: document.getElementById('swal-rating').value,
+                                pesan: document.getElementById('swal-feedback').value
+                            }
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({ title: 'Mengirim Masukan...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+                            const feedbackData = {
+                                type: "feedback", nama: studentName, kelas: studentClass,
+                                rating: result.value.rating, pesan: result.value.pesan
+                            };
+                            
+                            fetch(GOOGLE_SCRIPT_URL, {
+                                method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                                body: JSON.stringify(feedbackData)
+                            }).then(() => { showFinalScreen(); }).catch(() => { showFinalScreen(); });
+                        } else {
+                            showFinalScreen();
+                        }
+                    });
                 });
             }).catch(err => {
                 btnSubmit.disabled = false; btnSubmit.innerHTML = `<i class="fas fa-paper-plane text-xl"></i> Selesai & Kirim Jawaban`;
                 Swal.fire({ icon: 'error', title: 'Koneksi Gagal', text: 'Pastikan internet Anda stabil.' });
             });
+        }
+
+        function showFinalScreen() {
+            if (document.exitFullscreen) document.exitFullscreen().catch(()=>{});
+            document.body.innerHTML = `<div class="min-h-screen flex items-center justify-center bg-gray-100"><div class="text-center p-8"><i class="fas fa-check-circle text-6xl text-green-500 mb-4"></i><h1 class="text-3xl font-bold text-gray-800 mb-2">Terima Kasih</h1><p class="text-gray-600">Ujian dan masukan telah selesai. Silakan tutup browser Anda.</p></div></div>`;
         }
     </script>
 </body>

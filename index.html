@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Simulasi PAT Sejarah Kelas XI Kesehatan</title>
+    <title>Simulasi PAT Sejarah: Pendudukan Jepang & Proklamasi</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -16,6 +16,13 @@
         
         .blur-screen { filter: blur(15px); pointer-events: none; user-select: none; }
         
+        /* TEMA SEJARAH: Background tekstur kertas kuno untuk halaman depan */
+        .bg-vintage {
+            background-color: #eaddcf;
+            background-image: radial-gradient(#c6b29b 1px, transparent 0);
+            background-size: 20px 20px;
+        }
+
         /* CSS SortableJS & Drag-Drop */
         .draggable-item { cursor: grab; }
         .draggable-item:active { cursor: grabbing; }
@@ -26,19 +33,10 @@
             transition: all 0.2s ease; 
         }
         .dropzone.highlight { background-color: #eff6ff; border-color: #3b82f6; }
-        
         .sortable-item { transition: box-shadow 0.2s ease; }
-        
-        /* Handle untuk tipe soal "Urutkan" */
         .drag-handle { cursor: grab; padding: 10px; margin-left: -10px; }
         .drag-handle:active { cursor: grabbing; }
-        
-        .sortable-ghost { 
-            opacity: 0.4; 
-            background-color: #e0f2fe; 
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); 
-        }
-        
+        .sortable-ghost { opacity: 0.4; background-color: #e0f2fe; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
         .opt-item:hover { background-color: #f8fafc; }
         
         /* Kamera CCTV Tersembunyi */
@@ -58,57 +56,74 @@
     <video id="cctv-video" class="cctv-hidden" autoplay playsinline muted></video>
     <canvas id="cctv-canvas" style="display:none;"></canvas>
 
-    <div id="login-screen" class="min-h-screen flex items-center justify-center p-4 relative z-10">
-        <div class="bg-white p-8 rounded-xl shadow-lg max-w-md w-full border-t-4 border-indigo-600">
-            <div class="text-center mb-6">
-                <i class="fas fa-landmark text-5xl text-indigo-600 mb-3"></i>
-                <h1 class="text-2xl font-bold text-gray-900">Sistem Ujian CBT</h1>
-                <p class="text-gray-500 text-sm">Simulasi PAT Sejarah Kelas XI Kesehatan</p>
+    <!-- TAMPILAN AWAL: TEMA SEJARAH & PROKLAMASI -->
+    <div id="login-screen" class="min-h-screen flex items-center justify-center p-4 relative z-10 bg-vintage">
+        <!-- Aksen Dekorasi Kemerdekaan -->
+        <div class="absolute top-0 left-0 w-full h-4 flex">
+            <div class="w-1/2 h-full bg-red-700"></div>
+            <div class="w-1/2 h-full bg-white"></div>
+        </div>
+
+        <div class="bg-[#fdfbf7] p-8 rounded-xl shadow-2xl max-w-md w-full border border-[#d4c5b0] relative overflow-hidden">
+            <!-- Watermark Icon -->
+            <div class="absolute -bottom-8 -right-8 text-[#eaddcf] opacity-40 z-0">
+                <i class="fas fa-flag text-9xl"></i>
+            </div>
+
+            <div class="text-center mb-6 relative z-10">
+                <div class="inline-block p-4 bg-red-50 rounded-full border border-red-100 mb-3">
+                    <i class="fas fa-scroll text-5xl text-red-800"></i>
+                </div>
+                <h1 class="text-3xl font-bold text-gray-900 font-serif tracking-wide">Arsip Evaluasi</h1>
+                <h2 class="text-lg font-bold text-red-800 mt-1 uppercase tracking-widest">Sejarah Nasional</h2>
+                <p class="text-gray-600 text-sm mt-2 border-t border-[#d4c5b0] pt-2">Materi: Pendudukan Jepang & Proklamasi<br>Kelas XI Kesehatan</p>
             </div>
             
-            <div class="space-y-4">
+            <div class="space-y-4 relative z-10">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
-                    <input type="text" id="student-name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" placeholder="Masukkan nama lengkap" required>
+                    <label class="block text-sm font-bold text-gray-700 mb-1 font-serif">Nama Pejuang (Siswa)</label>
+                    <input type="text" id="student-name" class="w-full px-4 py-3 border border-[#d4c5b0] bg-white rounded-lg focus:ring-red-800 focus:border-red-800 transition-colors shadow-inner" placeholder="Masukkan nama lengkap" required>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Kelas</label>
-                    <select id="student-class" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                    <label class="block text-sm font-bold text-gray-700 mb-1 font-serif">Kesatuan (Kelas)</label>
+                    <select id="student-class" class="w-full px-4 py-3 border border-[#d4c5b0] bg-white rounded-lg focus:ring-red-800 focus:border-red-800 transition-colors shadow-inner">
                         <option value="">Pilih Kelas...</option>
                         <option value="XI Farmasi">XI Farmasi</option>
                         <option value="XI Keperawatan 1">XI Keperawatan 1</option>
                         <option value="XI Keperawatan 2">XI Keperawatan 2</option>
                     </select>
                 </div>
-                <div class="bg-red-50 p-4 rounded-lg border border-red-200 mt-4">
-                    <h3 class="text-sm font-bold text-red-800 flex items-center"><i class="fas fa-shield-alt mr-2"></i> PERHATIAN</h3>
-                    <ul class="text-xs text-red-700 mt-2 list-disc pl-4 space-y-1">
-                        <li><b>Sistem Proctoring Aktif:</b> Anda Wajib Mengizinkan Akses Kamera.</li>
-                        <li>Dilarang menggunakan layar terbagi (Split Screen).</li>
-                        <li>Dilarang membuka aplikasi lain/meninggalkan tab ujian.</li>
-                        <li>Soal dan Opsi akan diacak penuh. Ujian HANYA BISA DIKERJAKAN 1 KALI.</li>
+                <div class="bg-[#fff5f5] p-4 rounded-lg border border-red-200 mt-5 shadow-sm">
+                    <h3 class="text-sm font-bold text-red-900 flex items-center tracking-wide"><i class="fas fa-bullhorn mr-2"></i> MAKLUMAT UJIAN</h3>
+                    <ul class="text-xs text-red-800 mt-2 list-disc pl-4 space-y-1">
+                        <li><b>Sistem Pengawasan Aktif:</b> Wajib izinkan akses Kamera.</li>
+                        <li>Dilarang keras menggunakan layar terbagi (Split Screen).</li>
+                        <li>Dilarang meninggalkan markas (tab ujian) saat misi berlangsung.</li>
+                        <li>Soal & Opsi diacak. Kesempatan ujian hanya <b>SATU KALI</b>.</li>
                     </ul>
                 </div>
-                <button onclick="startExam()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg mt-4 transition-colors">
-                    Mulai Ujian <i class="fas fa-arrow-right ml-1"></i>
+                <button onclick="startExam()" class="w-full bg-red-800 hover:bg-red-900 text-white font-bold py-4 px-4 rounded-lg mt-6 transition-all transform hover:scale-[1.02] shadow-lg flex items-center justify-center text-lg font-serif tracking-wide">
+                    Mulai Bertempur <i class="fas fa-chevron-right ml-2 text-sm"></i>
                 </button>
             </div>
         </div>
     </div>
 
-    <div id="exam-screen" class="hidden min-h-screen flex flex-col relative z-10 bg-gray-100">
-        <header class="bg-white shadow-md sticky top-0 z-50">
+    <!-- TAMPILAN UJIAN -->
+    <div id="exam-screen" class="hidden min-h-screen flex flex-col relative z-10 bg-[#f4f1ea]">
+        <!-- Header Ujian Tema Merah Putih -->
+        <header class="bg-white shadow-md sticky top-0 z-50 border-b-4 border-red-800">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
                 <div>
-                    <h2 class="font-bold text-lg text-gray-900" id="display-name">Nama Siswa</h2>
+                    <h2 class="font-bold text-lg text-gray-900 font-serif" id="display-name">Nama Siswa</h2>
                     <p class="text-sm text-gray-500" id="display-class">Kelas</p>
                 </div>
                 <div class="text-right flex items-center gap-2 sm:gap-4">
-                    <div class="bg-red-100 text-red-800 px-3 py-1 rounded-full font-bold text-xs sm:text-sm shadow-sm border border-red-200">
-                        Pelanggaran: <span id="cheat-counter">0</span>/3
+                    <div class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full font-bold text-xs sm:text-sm shadow-sm border border-gray-300">
+                        <i class="fas fa-exclamation-triangle text-amber-600 mr-1"></i> Pelanggaran: <span id="cheat-counter">0</span>/3
                     </div>
-                    <div class="bg-indigo-100 text-indigo-800 px-3 py-2 sm:px-4 rounded-lg font-mono font-bold text-lg flex items-center shadow-inner border border-indigo-200">
-                        <i class="far fa-clock mr-2"></i> <span id="timer">25:00</span>
+                    <div class="bg-red-50 text-red-800 px-3 py-2 sm:px-4 rounded-lg font-mono font-bold text-lg flex items-center shadow-inner border border-red-200">
+                        <i class="fas fa-hourglass-half mr-2 animate-pulse"></i> <span id="timer">25:00</span>
                     </div>
                 </div>
             </div>
@@ -118,207 +133,207 @@
             <form id="exam-form" class="space-y-6">
                 <div id="all-questions-container" class="space-y-6">
 
-                    <!-- MAPPING 40 SOAL PILIHAN GANDA -->
+                    <!-- MAPPING 40 SOAL BARU -->
                     <script>
                         const questionsData = [
                             {
-                                text: "Alasan logis mengapa wilayah Tarakan, Kalimantan Timur, menjadi target invasi militer pertama Jepang di Indonesia pada tahun 1942 adalah untuk...",
-                                options: ["Membangun markas tentara terbesar", "Menguasai kilang minyak bumi sebagai bahan bakar perang", "Mencari jalur pelayaran baru ke Australia", "Merampas hasil rempah-rempah yang ditinggalkan Belanda", "Membebaskan tawanan politik Indonesia"],
+                                text: "Tujuan utama Jepang menguasai wilayah Tarakan, Kalimantan Timur, pada tahun 1942 adalah untuk...",
+                                options: ["Membangun markas tentara terbesar", "Menguasai kilang minyak bumi sebagai cadangan logistik perang", "Membuka jalur pelayaran baru menuju Australia", "Merampas hasil rempah-rempah peninggalan Belanda", "Membebaskan tawanan politik Indonesia"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Gerakan massa pertama yang dibentuk oleh pemerintah militer Jepang di awal kedatangannya untuk memikat hati rakyat Indonesia dikenal dengan nama...",
-                                options: ["Gerakan 3A", "Pusat Tenaga Rakyat (Putera)", "Jawa Hokokai", "Fujinkai", "MIAI"],
+                                text: "Gerakan propaganda awal yang dibentuk oleh pemerintah Jepang di Indonesia dikenal dengan nama...",
+                                options: ["Gerakan 3A", "Pusat Tenaga Rakyat (Putera)", "Jawa Hokokai", "Fujinkai", "Majelis Islam A'la Indonesia (MIAI)"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Kedatangan tentara Jepang awalnya disambut gembira oleh rakyat Indonesia. Hal ini disebabkan oleh kuatnya propaganda Jepang yang mengklaim diri mereka sebagai...",
-                                options: ["Pasukan pembebas berkulit putih", "Saudara Tua yang akan membebaskan bangsa Asia dari penjajahan Barat", "Negara terkaya yang akan membagikan sembako", "Utusan dewa yang diramalkan oleh tokoh adat", "Tentara sewaan yang dibayar oleh tokoh nasionalis"],
+                                text: "Alasan utama rakyat Indonesia menyambut baik kedatangan Jepang pada masa awal kependudukannya adalah karena Jepang mengklaim diri sebagai...",
+                                options: ["Pasukan pembebas berkulit putih", "Saudara Tua yang akan membebaskan bangsa Asia dari penjajahan", "Negara kaya yang akan membagikan bahan pangan", "Utusan dewa yang diramalkan oleh tokoh adat", "Tentara sewaan yang dibayar oleh tokoh nasionalis"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Kebijakan \"De-Westernisasi\" (penghapusan pengaruh Barat) oleh militer Jepang berdampak besar pada tersendatnya edukasi kesehatan dan keperawatan pribumi, yaitu karena...",
-                                options: ["Dokter dilarang memeriksa pasien menggunakan stetoskop", "Pelarangan total penggunaan buku-buku medis berbahasa Belanda", "Seluruh rumah sakit diubah menjadi pangkalan militer", "Tenaga medis wajib memakai pakaian adat Jepang", "Pelarangan penggunaan obat-obatan herbal"],
+                                text: "Dampak kebijakan De-Westernisasi (penghapusan pengaruh Barat) yang diterapkan Jepang terhadap bidang medis di Indonesia saat itu adalah...",
+                                options: ["Penggantian seluruh alat kesehatan modern dengan alat tradisional", "Pelarangan penggunaan buku-buku kedokteran berbahasa Belanda", "Penutupan seluruh rumah sakit yang ada di pedesaan", "Pembatasan jumlah tenaga keperawatan pria", "Pelarangan penggunaan seluruh jenis obat-obatan kimia"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Untuk memaksimalkan pengerahan sumber daya, Jepang membentuk organisasi Putera (Pusat Tenaga Rakyat). Tokoh nasionalis yang memimpin organisasi ini adalah...",
-                                options: ["Empat Serangkai", "Tiga Serangkai", "Sembilan Wali", "BPUPKI", "Panitia Sembilan"],
+                                text: "Organisasi bentukan Jepang yang dimanfaatkan untuk merangkul tokoh nasionalis Indonesia adalah...",
+                                options: ["Pusat Tenaga Rakyat (Putera)", "Gerakan 3A", "Fujinkai", "Keibodan", "Seinendan"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Sistem pengawasan sosial yang mewajibkan 10 hingga 20 kepala keluarga berada dalam satu kelompok RT di masa penjajahan Jepang disebut...",
+                                text: "Sistem pengawasan sosial kemasyarakatan warisan Jepang yang setara dengan Rukun Tetangga (RT) saat ini adalah...",
                                 options: ["Kempeitai", "Kumiai", "Tonarigumi", "Seikerei", "Keibodan"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Eksploitasi pengerahan tenaga kerja manusia secara besar-besaran, yang sering kali berujung pada penderitaan fisik bagi rakyat Indonesia zaman Jepang, disebut...",
+                                text: "Istilah untuk pengerahan tenaga kerja paksa pada masa pendudukan Jepang di Indonesia adalah...",
                                 options: ["Kerja Rodi", "Romusha", "Heiho", "Cultuurstelsel", "Jugun Ianfu"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Angka mortalitas (kematian) yang sangat tinggi di masa Jepang sangat dipengaruhi oleh hancurnya sistem kesehatan masyarakat. Penyebab utamanya adalah...",
-                                options: ["Rakyat tidak percaya pada pengobatan medis modern", "Semua perawat dikirim ke Jepang", "Penyitaan paksa bahan pangan pokok dan obat-obatan (seperti kina) oleh militer", "Cuaca ekstrem yang menyebabkan gagal panen", "Pemberontakan massal di berbagai daerah"],
+                                text: "Penyebab utama terjadinya krisis kesehatan, seperti wabah malaria dan malnutrisi (busung lapar), pada masa pendudukan Jepang adalah...",
+                                options: ["Penolakan masyarakat terhadap pengobatan medis modern", "Pemindahan seluruh tenaga medis ke Jepang", "Perampasan bahan pangan pokok dan obat-obatan oleh militer Jepang", "Cuaca ekstrem yang menyebabkan gagal panen berkepanjangan", "Pemberontakan massal masyarakat di berbagai daerah"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Organisasi perempuan bentukan Jepang yang diwajibkan bagi wanita berusia minimal 15 tahun ke atas (seusia siswi SMK) adalah...",
+                                text: "Organisasi semi-militer bentukan Jepang yang khusus beranggotakan perempuan berusia minimal 15 tahun adalah...",
                                 options: ["Seinendan", "Fujinkai", "Gakutotai", "PETA", "Barisan Pelopor"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Meskipun tidak terjun langsung mengangkat senjata, kaum perempuan di masa Jepang memiliki peran krusial di garis belakang, yakni...",
-                                options: ["Melatih strategi perang gerilya", "Mengumpulkan senjata sitaan dari Sekutu", "Menjadi tim P3K (pertolongan medis darurat) dan mengelola dapur umum", "Menjadi perunding diplomasi dengan Belanda", "Mengajarkan doktrin fasisme di sekolah-sekolah"],
+                                text: "Tugas utama anggota organisasi Fujinkai di garis belakang pertahanan adalah...",
+                                options: ["Menyusun strategi perang gerilya", "Mengumpulkan senjata sitaan dari pasukan Sekutu", "Menyelenggarakan pertolongan medis (P3K) dan dapur umum", "Menjadi perunding diplomasi dengan pemerintah Belanda", "Mengajarkan doktrin militer di sekolah-sekolah"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Salah satu dampak positif jangka panjang yang tersisa dari kerasnya sistem pendidikan semi-militer Jepang bagi pemuda Indonesia adalah...",
-                                options: ["Munculnya sikap individualisme yang tinggi", "Terbentuknya mentalitas baja, kedisiplinan, dan jiwa bela negara", "Munculnya keinginan untuk terus berperang", "Rakyat terbiasa menolak perintah atasan", "Berkurangnya rasa hormat kepada tokoh agama"],
+                                text: "Dampak jangka panjang dari penerapan disiplin militer Jepang terhadap mental bangsa Indonesia adalah...",
+                                options: ["Meningkatnya sikap individualisme di masyarakat", "Terbentuknya mental keberanian, kedisiplinan, dan jiwa bela negara", "Munculnya keinginan untuk terlibat dalam invasi militer", "Tumbuhnya sikap penolakan terhadap instruksi atasan", "Berkurangnya rasa hormat kepada tokoh pemerintahan"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Pada masa-masa awal, pengerahan tenaga Romusha berjalan lancar dan banyak pemuda mendaftar secara sukarela karena Jepang menggunakan taktik propaganda dengan menjuluki mereka sebagai...",
+                                text: "Alasan utama penduduk desa pada awalnya bersedia menjadi pekerja Romusha adalah karena propaganda Jepang yang menjuluki mereka sebagai...",
                                 options: ["Ksatria Nusantara", "Prajurit Ekonomi atau Pahlawan Pekerja", "Pasukan Berani Mati", "Tentara Pembebas", "Saudara Muda Jepang"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Berdasarkan analisis medis, kondisi mayoritas pekerja Romusha yang mengalami busung lapar (malnutrisi) akut membuktikan bahwa penjajahan Jepang menyebabkan...",
-                                options: ["Suksesnya program kemandirian pangan", "Peningkatan gizi bagi pekerja keras", "Eksploitasi ekonomi dan perampasan sumber kalori rakyat secara sistematis", "Terbentuknya antibodi masyarakat terhadap penyakit", "Keberhasilan distribusi obat-obatan ke desa-desa"],
+                                text: "Secara medis, memburuknya kondisi fisik dan tingginya angka malnutrisi pada pekerja Romusha membuktikan bahwa masa pendudukan Jepang menyebabkan...",
+                                options: ["Keberhasilan program kemandirian pangan desa", "Peningkatan daya tahan tubuh pekerja kasar", "Eksploitasi ekonomi dan perampasan sumber nutrisi secara sistematis", "Terbentuknya kekebalan kelompok (herd immunity)", "Membaiknya distribusi obat-obatan ke daerah pelosok"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Fungsi sistem RT (Tonarigumi) di masa Jepang sangat berbeda dengan masa kini. Jika di masa kini RT berfungsi untuk kerukunan dan administrasi, di masa Jepang berfungsi untuk...",
-                                options: ["Menyalurkan bantuan dana pendidikan", "Memata-matai gerak-gerik warga dari potensi perlawanan", "Membentuk tim olahraga antardesa", "Mengkoordinasikan acara perayaan hari besar", "Membagikan hasil panen secara adil"],
+                                text: "Perbedaan utama fungsi Tonarigumi pada masa Jepang dengan fungsi Rukun Tetangga (RT) pada masa kini adalah...",
+                                options: ["Tonarigumi berfungsi menyalurkan dana bantuan, sedangkan RT untuk administrasi", "Tonarigumi berfungsi memata-matai gerak-gerik warga, sedangkan RT untuk kerukunan sosial", "Tonarigumi berfungsi membentuk tim olahraga, sedangkan RT untuk keagamaan", "Tonarigumi berfungsi mengoordinasikan perayaan, sedangkan RT untuk memungut pajak", "Tonarigumi berfungsi membagikan hasil panen, sedangkan RT untuk kerja bakti"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Satuan polisi militer rahasia tentara Jepang yang sangat ditakuti karena tidak segan menyiksa tahanan secara brutal adalah...",
+                                text: "Satuan polisi militer rahasia Jepang yang terkenal sangat kejam dalam mengawasi dan menghukum masyarakat Indonesia adalah...",
                                 options: ["Kamikaze", "Kempeitai", "Seinendan", "Keibodan", "Heiho"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Lembaga koperasi wajib bentukan militer Jepang yang memonopoli dan merampas hasil panen padi petani adalah...",
+                                text: "Koperasi bentukan pemerintah militer Jepang yang bertugas mengumpulkan padi secara paksa dari rakyat disebut...",
                                 options: ["Kumiai", "Jawa Hokokai", "MIAI", "Putera", "Chuo Sangi In"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Pasukan bersenjata asli bentukan Jepang yang mayoritas perwiranya kelak menjadi tokoh-tokoh penting dalam TNI adalah...",
-                                options: ["Heiho", "PETA (Pembela Tanah Air)", "Barisan Pelopor", "Hizbullah", "Gakutotai"],
+                                text: "Organisasi tentara sukarela bentukan Jepang yang kelak menjadi cikal bakal Tentara Nasional Indonesia (TNI) adalah...",
+                                options: ["Heiho", "Pembela Tanah Air (PETA)", "Barisan Pelopor", "Hizbullah", "Gakutotai"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Perhatikan data berikut: 1) Kewajiban Seikerei, 2) Penggunaan Bahasa Indonesia meluas, 3) Perampasan padi, 4) Latihan militer pemuda.<br>Manakah yang termasuk dampak negatif kebijakan militer Jepang yang melanggar hak asasi?",
+                                text: "Perhatikan data berikut: <br>1) Kelaparan massal <br>2) Peningkatan fasilitas pendidikan <br>3) Kerja paksa <br>4) Perluasan penggunaan Bahasa Indonesia. <br>Dampak negatif pendudukan Jepang ditunjukkan oleh nomor...",
                                 options: ["1 dan 2", "2 dan 4", "1 dan 3", "3 dan 4", "2 dan 3"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Keuntungan terbesar bagi bangsa Indonesia dari kebijakan militer Jepang (pembentukan Heiho dan PETA) menjelang proklamasi adalah...",
-                                options: ["Jepang meninggalkan banyak emas untuk modal negara", "Pemuda Indonesia mendapatkan bekal keterampilan taktik dan strategi militer", "Pemuda dibebaskan dari kewajiban pajak", "Diberikannya wilayah kekuasaan militer secara cuma-cuma", "Mendapatkan perlindungan mutlak dari serangan sekutu"],
+                                text: "Dampak positif pendudukan Jepang di bidang militer yang berkontribusi langsung bagi persiapan kemerdekaan Indonesia adalah...",
+                                options: ["Penyerahan senjata modern secara gratis kepada rakyat", "Pemberian pelatihan taktik dan strategi militer bagi pemuda Indonesia", "Pembebasan kewajiban pajak bagi seluruh anggota militer", "Pemberian wilayah otonomi khusus militer secara cuma-cuma", "Pemberian jaminan keamanan mutlak dari serangan Sekutu"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Banyak pekerja Romusha meninggal akibat \"Trias Masalah Kesehatan\", yang meliputi...",
-                                options: ["Demam berdarah, stres ringan, dan insomnia", "Malnutrisi (kurang gizi), infeksi penyakit menular, dan kelelahan fisik ekstrem", "Kanker, penyakit jantung, dan kolesterol", "Gagal ginjal, patah tulang, dan keracunan air", "Obesitas, hipertensi, dan diabetes"],
+                                text: "Tiga masalah kesehatan utama (\"Trias Masalah Kesehatan\") yang dialami oleh para pekerja Romusha adalah...",
+                                options: ["Demam berdarah, stres, dan insomnia", "Malnutrisi (kurang gizi), infeksi penyakit menular, dan kelelahan ekstrem", "Kanker, penyakit jantung, dan kolesterol tinggi", "Gagal ginjal, patah tulang, dan keracunan air", "Obesitas, hipertensi, dan diabetes"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Saat terdesak oleh pasukan Sekutu di Perang Pasifik pada tahun 1944, Jepang mengeluarkan \"Janji Koiso\" dengan tujuan utama...",
-                                options: ["Mengakui kekalahan perang di mata dunia", "Meminta maaf kepada bangsa Indonesia atas eksploitasi", "Menarik simpati rakyat Indonesia agar tetap mau membantu Jepang berperang", "Menyerahkan kekuasaan langsung kepada Soekarno", "Mengajak Belanda berunding di Indonesia"],
+                                text: "Langkah politik yang diambil Jepang melalui \"Janji Koiso\" saat posisinya mulai terdesak oleh Sekutu bertujuan untuk...",
+                                options: ["Mengakui kekalahan militer secara internasional", "Meminta maaf kepada bangsa Indonesia atas tindakan eksploitasi", "Menarik simpati rakyat Indonesia agar tetap membantu Jepang dalam perang", "Menyerahkan kekuasaan langsung kepada tokoh nasionalis", "Membuka jalur perundingan perdamaian dengan Belanda"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
                                 text: "Sebagai adaptasi terhadap larangan ketat penggunaan literatur asing oleh Jepang, langkah progresif yang diambil oleh para tenaga medis dan dokter pribumi saat itu adalah...",
-                                options: ["Menolak merawat pasien asal Jepang", "Menggunakan metode pengobatan supranatural", "Memperkaya dan membakukan istilah-istilah medis ke dalam Bahasa Indonesia", "Menghentikan seluruh kegiatan operasi bedah", "Mogok kerja massal di seluruh rumah sakit"],
+                                options: ["Menolak merawat pasien yang berafiliasi dengan militer", "Beralih menggunakan metode pengobatan supranatural", "Menerjemahkan dan membakukan istilah-istilah medis ke dalam Bahasa Indonesia", "Menghentikan seluruh kegiatan operasi bedah di rumah sakit", "Melakukan mogok kerja di seluruh fasilitas kesehatan"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Karakteristik yang membedakan organisasi Jawa Hokokai dengan organisasi Putera adalah...",
-                                options: ["Jawa Hokokai dipimpin langsung oleh tokoh nasionalis Indonesia", "Jawa Hokokai dikhususkan untuk masyarakat di luar pulau Jawa", "Jawa Hokokai berada di bawah komando langsung pejabat militer Jepang untuk penyerahan barang bakti", "Jawa Hokokai adalah organisasi politik yang bebas mengkritik Jepang", "Jawa Hokokai dibentuk untuk melawan Sekutu secara diplomasi"],
+                                text: "Perbedaan mendasar pengawasan antara organisasi Jawa Hokokai dengan organisasi Putera adalah...",
+                                options: ["Jawa Hokokai dipimpin langsung oleh tokoh nasionalis Indonesia", "Jawa Hokokai dibentuk khusus untuk masyarakat di luar Pulau Jawa", "Jawa Hokokai berada di bawah komando dan pengawasan langsung pejabat militer Jepang", "Jawa Hokokai memiliki kebebasan politik untuk mengkritik pemerintah Jepang", "Jawa Hokokai berfokus pada diplomasi internasional dengan Sekutu"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Kelangkaan tekstil akibat blokade perang memaksa rakyat Indonesia di masa Jepang menggunakan bahan gatal yang memicu penyakit infeksi kulit (kudis / scabies), yaitu baju yang terbuat dari...",
-                                options: ["Kulit sapi", "Daun pisang", "Karung goni basah dan lembaran karet", "Kain katun kasar", "Kain sutra bekas"],
+                                text: "Bahan pakaian pada masa pendudukan Jepang yang memicu tingginya angka penyakit infeksi kulit di masyarakat adalah...",
+                                options: ["Kulit hewan liar", "Daun pisang kering", "Karung goni dan lembaran karet", "Kain katun berkualitas rendah", "Pakaian berbahan plastik bekas"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Dalam perspektif mitigasi kesehatan masyarakat (seperti saat menghadapi pandemi COVID-19 lalu), struktur masa Jepang manakah yang secara fungsi sosial relevan diadopsi untuk memantau kesehatan warga di tingkat akar rumput?",
-                                options: ["Seikerei", "Tonarigumi (RT)", "Kempeitai", "Romusha", "Kumiai"],
+                                text: "Sistem peninggalan Jepang yang relevan diadaptasi sebagai strategi pengawasan kesehatan dan pergerakan warga di tingkat bawah saat terjadi wabah penyakit (pandemi) masa kini adalah...",
+                                options: ["Seikerei", "Tonarigumi", "Kempeitai", "Romusha", "Kumiai"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Tokoh pergerakan nasional yang berinisiatif mengirim surat permohonan kepada pemerintah Jepang agar segera membentuk tentara sukarela (PETA) adalah...",
-                                options: ["R.A. Kartini", "Ki Hajar Dewantara", "Gatot Mangkoepradja", "Ahmad Subardjo", "Sutan Sjahrir"],
+                                text: "Tokoh nasional yang mengusulkan pembentukan pasukan Pembela Tanah Air (PETA) kepada pemerintah Jepang adalah...",
+                                options: ["R.A. Kartini", "Ki Hajar Dewantara", "Raden Gatot Mangkoepradja", "Ahmad Subardjo", "Sutan Sjahrir"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Penderitaan rakyat yang tidak tertahankan memicu pemberontakan besar prajurit PETA di Blitar pada Februari 1945, yang dikomandoi oleh...",
+                                text: "Tokoh yang memimpin pemberontakan tentara PETA di Blitar pada Februari 1945 akibat penderitaan rakyat adalah...",
                                 options: ["Jenderal Sudirman", "Oerip Soemohardjo", "Shodanco Supriyadi", "KH. Zainal Mustafa", "Teuku Hamid"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Barisan pemuda didikan Jepang yang dilatih semi-militer dengan tugas utama mempertahankan desa masing-masing sebagai garda belakang adalah...",
+                                text: "Organisasi semi-militer bentukan Jepang yang dikhususkan untuk melatih remaja putra dalam mempertahankan desa adalah...",
                                 options: ["Heiho", "Seinendan", "Kempeitai", "Putera", "Chuo Sangi In"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Penderitaan di masa Jepang sering disebut sebagai titik balik pergerakan nasional menuju kemerdekaan karena...",
-                                options: ["Jepang berjanji memberikan hadiah kemerdekaan dengan cepat", "Penderitaan yang merata menyatukan tekad pemuda tanpa memandang suku dan daerah untuk merdeka", "Jepang memaksa seluruh pemuda untuk berdamai dengan Belanda", "Banyak tokoh politik yang diberikan jabatan tinggi di militer Jepang", "Masyarakat mulai terbiasa dengan gaya hidup penjajah"],
+                                text: "Alasan utama masa pendudukan Jepang menjadi titik balik yang mempercepat pergerakan bangsa menuju kemerdekaan adalah...",
+                                options: ["Jepang merencanakan pemberian kemerdekaan secara cuma-cuma", "Penderitaan akibat penjajahan menyatukan tekad pemuda untuk segera merdeka", "Adanya tekanan dari pihak Belanda untuk mengakhiri pendudukan Jepang", "Pemuda Indonesia diberikan jabatan tinggi dalam struktur militer Jepang", "Tingkat kesejahteraan masyarakat meningkat secara signifikan"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Sama seperti propaganda Jepang, penyebaran hoaks medis saat ini sangat berbahaya. Sebagai tenaga kesehatan yang terliterasi sejarah, sikap terbaik dalam menghadapi hoaks tersebut adalah...",
-                                options: ["Ikut menyebarkan demi asas kehati-hatian", "Memverifikasi fakta secara kritis berbasis jurnal/ilmu medis dan memberikan edukasi yang benar", "Mendiamkan saja karena itu bukan urusan perawat", "Menghapus akun media sosial pasien yang menyebarkan hoaks", "Menyalahkan pemerintah atas kurangnya informasi"],
+                                text: "Berdasarkan pemahaman sejarah tentang bahaya propaganda, langkah terbaik sebagai tenaga kesehatan dalam menghadapi penyebaran informasi hoaks medis saat ini adalah...",
+                                options: ["Menyebarkan informasi tersebut sebagai langkah kewaspadaan dini", "Memverifikasi fakta berdasarkan literatur medis dan memberikan edukasi yang benar", "Mengabaikan hoaks tersebut karena tidak berkaitan dengan asuhan keperawatan", "Menghapus akun media sosial pihak yang menyebarkan informasi palsu", "Menyerahkan seluruh tanggung jawab klarifikasi kepada pemerintah pusat"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Menyerahnya Jepang kepada Sekutu pada pertengahan Agustus 1945 menciptakan sebuah kondisi kritis di mana tidak ada otoritas penguasa yang sah di Indonesia. Kondisi darurat ini disebut...",
-                                options: ["Status Quo", "Vacuum of Power", "Laissez-faire", "Coup d'etat", "Devide et Impera"],
+                                text: "Istilah untuk situasi kekosongan kekuasaan di Indonesia setelah Jepang menyerah tanpa syarat kepada Sekutu pada Agustus 1945 adalah...",
+                                options: ["Status Quo", "Vacuum of Power", "Laissez-Faire", "Coup d'etat", "Devide et Impera"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Peristiwa Rengasdengklok pada esensi sejarahnya dipicu oleh adanya konflik tajam antara Golongan Tua dan Golongan Muda mengenai...",
-                                options: ["Siapa yang akan menjadi presiden pertama", "Pembagian senjata rampasan dari militer Jepang", "Waktu pelaksanaan dan mekanisme Proklamasi Kemerdekaan", "Tempat penandatanganan teks proklamasi", "Desain bendera kebangsaan yang akan dikibarkan"],
+                                text: "Peristiwa Rengasdengklok dipicu oleh perbedaan pandangan antara Golongan Muda dan Golongan Tua mengenai...",
+                                options: ["Pemilihan presiden pertama Republik Indonesia", "Pembagian senjata hasil rampasan dari militer Jepang", "Waktu pelaksanaan dan mekanisme Proklamasi Kemerdekaan", "Penentuan lokasi penandatanganan teks Proklamasi", "Penentuan desain bendera kebangsaan Indonesia"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Secara logis, tujuan dari taktik Golongan Muda \"mengamankan\" Bung Karno dan Bung Hatta jauh ke daerah Rengasdengklok adalah...",
-                                options: ["Menyelamatkan mereka dari incaran peluru nyasar tentara Sekutu", "Mencari dukungan logistik dari petani beras di Karawang", "Menjauhkan kedua tokoh dari pengaruh, intervensi, dan tekanan militer Jepang di Jakarta", "Melaksanakan proklamasi di daerah agar tidak diliput media", "Melatih fisik Soekarno-Hatta dengan latihan militer PETA"],
+                                text: "Tujuan utama Golongan Muda membawa Soekarno dan Mohammad Hatta ke Rengasdengklok adalah...",
+                                options: ["Menyelamatkan kedua tokoh dari serangan udara tentara Sekutu", "Mencari dukungan logistik pangan dari daerah Karawang", "Menjauhkan kedua tokoh dari intervensi dan pengaruh militer Jepang", "Melaksanakan proklamasi di daerah agar tidak diketahui pihak asing", "Memberikan pelatihan militer darurat kepada Soekarno dan Hatta"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Momentum paling bersejarah bagi bangsa, yakni pembacaan Teks Proklamasi 17 Agustus 1945, dilaksanakan dengan sederhana di...",
-                                options: ["Istana Merdeka", "Rumah Laksamana Maeda", "Halaman rumah Bung Karno di Jl. Pegangsaan Timur No. 56", "Lapangan Ikada (Monas)", "Gedung BPUPKI (Pejambon)"],
+                                text: "Pembacaan teks Proklamasi Kemerdekaan Indonesia pada tanggal 17 Agustus 1945 dilaksanakan di...",
+                                options: ["Istana Merdeka", "Rumah Laksamana Maeda", "Jalan Pegangsaan Timur Nomor 56, Jakarta", "Lapangan Ikada (Monas)", "Gedung Pejambon"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Situasi panas di Rengasdengklok akhirnya dapat diredakan setelah seorang tokoh dari Golongan Tua datang dan mempertaruhkan nyawanya sebagai jaminan agar proklamasi diwujudkan esok hari. Tokoh tersebut adalah...",
+                                text: "Tokoh yang menjemput Soekarno-Hatta di Rengasdengklok dan memberikan jaminan keamanan kepada Golongan Muda agar proklamasi dilaksanakan keesokan harinya adalah...",
                                 options: ["Chaerul Saleh", "Sukarni", "Ahmad Subardjo", "Ki Hajar Dewantara", "Wikana"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Perumusan naskah proklamasi membutuhkan ruang konsentrasi yang aman dari patroli Kempeitai Jepang. Lokasi yang dipilih sebagai tempat perumusan teks tersebut adalah rumah...",
+                                text: "Rumah tokoh militer Jepang yang dijadikan tempat perumusan naskah Proklamasi Kemerdekaan Indonesia karena alasan jaminan keamanan adalah rumah...",
                                 options: ["Jenderal Terauchi", "Laksamana Tadashi Maeda", "Kaisar Hirohito", "Jenderal Kumakichi Harada", "Hitoshi Shimizu"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Naskah otentik proklamasi adalah naskah hasil ketikan yang mengalami perbaikan ejaan agar lebih resmi (seperti kata tempoh menjadi tempo). Tokoh yang mengetik teks tersebut adalah...",
+                                text: "Tokoh yang berjasa mengetik teks Proklamasi Kemerdekaan Indonesia dengan melakukan beberapa penyesuaian ejaan resmi adalah...",
                                 options: ["Sayuti Melik", "B.M. Diah", "S. Suhud", "Latief Hendraningrat", "Sutan Sjahrir"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Identitas negara berupa Bendera Pusaka Merah Putih yang mengudara saat Proklamasi dijahit dengan tangan oleh...",
+                                text: "Tokoh yang menjahit Bendera Pusaka Merah Putih untuk dikibarkan pada saat pembacaan Proklamasi Kemerdekaan adalah...",
                                 options: ["Cut Nyak Dien", "Ibu Fatmawati", "S.K. Trimurti", "R.A. Kartini", "Dewi Sartika"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "Saat rapat perumusan teks proklamasi, kalimat pembuka yang berbunyi \"Kami bangsa Indonesia dengan ini menyatakan kemerdekaan Indonesia\" disumbangkan pemikirannya oleh...",
+                                text: "Tokoh yang menyumbangkan gagasan kalimat pertama (\"Kami bangsa Indonesia dengan ini menjatakan kemerdekaan Indonesia\") pada naskah Proklamasi adalah...",
                                 options: ["Ir. Soekarno", "Drs. Moh. Hatta", "Ahmad Subardjo", "Radjiman Wedyodiningrat", "Tan Malaka"],
                                 values: ["A", "B", "C", "D", "E"]
                             },
                             {
-                                text: "(HOTS) Di ruang Gawat Darurat (IGD), seorang perawat harus bertindak sigap menghadapi pasien yang tiba-tiba henti jantung (cardiac arrest). Karakter dan tindakan sejarah yang paling relevan dengan etika tindakan medis cepat ini adalah...",
-                                options: ["Sikap Golongan Tua yang menunggu izin resmi militer Jepang sebelum bertindak", "Sikap Golongan Muda yang berani mengambil keputusan darurat, cepat, dan terukur demi menyelamatkan negara dari Vacuum of Power", "Kebijakan Jepang yang menyita obat-obatan untuk kepentingan sendiri", "Strategi Ahmad Subardjo yang hanya memberikan janji manis tanpa tindakan", "Pasrah menunggu dokter datang meskipun nyawa pasien terancam"],
+                                text: "Kasus darurat di ruang perawatan membutuhkan pengambilan keputusan medis yang cepat dan tepat. Sikap tokoh sejarah saat proklamasi yang paling relevan dengan etika keperawatan ini adalah...",
+                                options: ["Sikap menunggu instruksi resmi dari otoritas asing sebelum bertindak", "Sikap berani dan cepat mengambil keputusan darurat demi kepentingan yang lebih besar", "Sikap mementingkan keselamatan diri sendiri di atas kepentingan pasien", "Sikap memberikan janji tanpa melakukan tindakan eksekusi", "Sikap bersikap pasif menunggu bantuan ahli datang ke lokasi."],
                                 values: ["A", "B", "C", "D", "E"]
                             }
                         ];
@@ -331,18 +346,20 @@
                             let optionsHtml = '';
                             q.options.forEach((opt, optIndex) => {
                                 optionsHtml += `
-                                    <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg">
-                                        <input type="radio" name="q${qIndex}" value="${q.values[optIndex]}" class="mt-1"> 
-                                        <span>${opt}</span>
+                                    <label class="opt-item flex items-start gap-3 cursor-pointer p-4 border border-[#e5dfd3] bg-[#faf9f6] rounded-lg transition-colors hover:border-red-300">
+                                        <input type="radio" name="q${qIndex}" value="${q.values[optIndex]}" class="mt-1 accent-red-700 w-4 h-4"> 
+                                        <span class="text-gray-700 leading-relaxed">${opt}</span>
                                     </label>
                                 `;
                             });
 
                             htmlContent += `
-                                <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
-                                    <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
-                                    <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> ${q.text}</p>
-                                    <div class="space-y-2 pl-1 sm:pl-4" id="opt-q${qIndex}">
+                                <div class="q-block bg-white p-6 sm:p-8 rounded-xl shadow-sm border border-[#e5dfd3]">
+                                    <div class="mb-4 flex items-center justify-between border-b border-gray-100 pb-3">
+                                        <span class="text-xs font-bold tracking-widest text-red-800 uppercase"><i class="fas fa-pen-nib mr-2"></i> Pilihan Ganda</span>
+                                    </div>
+                                    <p class="font-medium text-gray-800 mb-5 text-justify leading-relaxed text-[1.05rem]"><span class="q-num font-bold text-xl mr-1 text-red-800"></span> ${q.text}</p>
+                                    <div class="space-y-3" id="opt-q${qIndex}">
                                         ${optionsHtml}
                                     </div>
                                 </div>
@@ -354,9 +371,9 @@
                     <!-- END OF MAPPING -->
 
                 </div> 
-                <div class="flex justify-end pt-6 pb-12">
-                    <button type="button" id="btn-submit" onclick="confirmSubmit()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-8 sm:px-12 rounded-xl shadow-lg flex items-center gap-3 transition-transform active:scale-95">
-                        <i class="fas fa-paper-plane text-xl"></i> Selesai & Kirim Jawaban
+                <div class="flex justify-end pt-8 pb-12">
+                    <button type="button" id="btn-submit" onclick="confirmSubmit()" class="bg-red-800 hover:bg-red-900 text-white font-bold py-4 px-8 sm:px-12 rounded-xl shadow-lg flex items-center gap-3 transition-transform active:scale-95 text-lg font-serif tracking-wide border border-red-950">
+                        <i class="fas fa-paper-plane"></i> Serahkan Jawaban
                     </button>
                 </div>
             </form>
@@ -364,11 +381,12 @@
     </div>
 
     <script>
+        // GANTI URL DI BAWAH INI DENGAN URL APPS SCRIPT ANDA DARI LANGKAH SEBELUMNYA
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwkwG_5Vz57H9uRj2BEyorMXPpHU2Ff5IsiWNl2eBqhsi2C-3VGEB3EA860ZqwBYMpoTw/exec'; 
         
         let studentName = "", studentClass = "";
         let cheatCount = 0, examActive = false;
-        let timeLeft = 1500, timerInterval; // UBAH MENJADI 25 MENIT (1500 detik)
+        let timeLeft = 1500, timerInterval; // 25 Menit (1500 detik)
         let initialWidth = window.innerWidth;
         let cctvInterval; 
         
@@ -379,10 +397,13 @@
         window.onload = function() {
             if (localStorage.getItem('pts_sejarah_selesai') === 'true') {
                 document.getElementById('login-screen').innerHTML = `
-                    <div class="bg-white p-8 rounded-xl shadow-lg max-w-md w-full border-t-4 border-red-600 text-center">
-                        <i class="fas fa-user-lock text-5xl text-red-600 mb-4"></i>
-                        <h2 class="text-2xl font-bold text-gray-900 mb-2">Akses Ditolak</h2>
-                        <p class="text-gray-600">Anda sudah mengerjakan ujian ini di perangkat ini.</p>
+                    <div class="bg-white p-8 rounded-xl shadow-lg max-w-md w-full border-t-8 border-red-800 text-center relative overflow-hidden">
+                        <div class="absolute -top-10 -right-10 text-red-100 opacity-50"><i class="fas fa-lock text-9xl"></i></div>
+                        <div class="relative z-10">
+                            <i class="fas fa-user-lock text-5xl text-red-800 mb-4"></i>
+                            <h2 class="text-2xl font-bold text-gray-900 mb-2 font-serif">Akses Ditolak</h2>
+                            <p class="text-gray-600">Sistem mencatat Anda telah menyerahkan dokumen ujian ini.</p>
+                        </div>
                     </div>`;
             }
         };
@@ -391,14 +412,15 @@
             studentName = document.getElementById('student-name').value.trim();
             studentClass = document.getElementById('student-class').value;
             if (!studentName || !studentClass) {
-                Swal.fire({ icon: 'error', title: 'Oops...', text: 'Silakan isi Nama dan Kelas terlebih dahulu!' });
+                Swal.fire({ icon: 'error', title: 'Perhatian', text: 'Nama dan Kesatuan (Kelas) wajib diisi!' });
                 return;
             }
 
             Swal.fire({
-                title: 'Mohon Izinkan Kamera',
-                text: 'Sistem membutuhkan akses kamera Anda untuk memulai ujian.',
+                title: 'Otorisasi Kamera',
+                text: 'Sistem pengawasan (Proctoring) membutuhkan akses kamera untuk memulai.',
                 icon: 'info',
+                confirmButtonColor: '#991b1b',
                 allowOutsideClick: false,
                 didOpen: () => { Swal.showLoading(); }
             });
@@ -424,7 +446,7 @@
                 
                 const bgm = document.getElementById('bgm-audio');
                 bgm.volume = 0.2; 
-                bgm.play().catch(e => console.log("Audio autoplay dicegah browser"));
+                bgm.play().catch(e => console.log("BGM autoplay dicegah browser"));
 
                 examActive = true; 
                 
@@ -435,7 +457,7 @@
                 }, 10000);
 
                 startTimer(); 
-                initSortableJS(); // Tetap dipanggil untuk mencegah error dan mempertahankan struktur asli kode
+                initSortableJS(); // Mempertahankan fungsi bawaan script original
                 
                 setTimeout(captureCCTV, 5000); 
                 cctvInterval = setInterval(captureCCTV, 60000); 
@@ -443,8 +465,9 @@
             .catch(function(err) {
                 Swal.fire({
                     icon: 'error', title: 'Akses Ditolak',
-                    text: 'Anda tidak dapat mengikuti ujian tanpa mengizinkan akses kamera.',
-                    confirmButtonText: 'Coba Lagi'
+                    text: 'Ujian tidak dapat diakses tanpa izin kamera untuk pengawasan.',
+                    confirmButtonText: 'Coba Lagi',
+                    confirmButtonColor: '#991b1b'
                 });
             });
         }
@@ -484,16 +507,12 @@
                 items.forEach(item => container.appendChild(item)); 
             };
 
-            // Mengacak Opsi Jawaban Secara Dinamis untuk ke-40 Soal
+            // Acak Opsi Jawaban (A, B, C, D, E) untuk ke-40 Soal
             for(let i = 1; i <= 40; i++){
                 shuffleElements('opt-q' + i, '.opt-item');
             }
 
-            // Mencegah error jika div Sortable masih dipanggil dari kode aslinya
-            ['source-q5','source-q6'].forEach(id => shuffleElements(id, '.draggable-item'));
-            ['sort-q7','sort-q8'].forEach(id => shuffleElements(id, '.sortable-item'));
-
-            // Mengacak Urutan Soal
+            // Acak Urutan Nomor Soal
             const masterContainer = document.getElementById('all-questions-container');
             const questionBlocks = Array.from(masterContainer.querySelectorAll('.q-block'));
             
@@ -503,7 +522,7 @@
             }
             questionBlocks.forEach(block => masterContainer.appendChild(block));
 
-            // Merapikan nomor otomatis setelah diacak
+            // Rapikan kembali nomor urut soal
             let currentNumber = 1;
             document.querySelectorAll('.q-block .q-num').forEach(span => {
                 span.textContent = currentNumber + ". ";
@@ -519,9 +538,10 @@
                 const s = (timeLeft % 60).toString().padStart(2, '0');
                 document.getElementById('timer').textContent = `${m}:${s}`;
                 if (timeLeft === 300) {
-                    document.getElementById('timer').classList.replace('bg-indigo-100', 'bg-red-100');
-                    document.getElementById('timer').classList.replace('text-indigo-800', 'text-red-800');
-                    document.getElementById('timer').classList.replace('border-indigo-200', 'border-red-200');
+                    // Peringatan 5 Menit Terakhir (Warna Merah Pekat)
+                    document.getElementById('timer').classList.replace('bg-red-50', 'bg-red-700');
+                    document.getElementById('timer').classList.replace('text-red-800', 'text-white');
+                    document.getElementById('timer').classList.replace('border-red-200', 'border-red-900');
                 }
             }, 1000);
         }
@@ -541,7 +561,7 @@
                 Swal.fire({ 
                     icon: 'warning', title: 'Peringatan Pelanggaran!', 
                     text: `${reason}. Peringatan ${cheatCount} dari 3. Jika 3 kali, ujian otomatis terkunci.`, 
-                    confirmButtonColor: '#d33', allowOutsideClick: false
+                    confirmButtonColor: '#991b1b', allowOutsideClick: false
                 }).then(() => { isWarningOpen = false; });
             }
         }
@@ -583,28 +603,15 @@
             }
         });
 
-        // Fitur ini dibiarkan untuk menjaga originalitas fungsi tanpa menghapus satupun
         function initSortableJS() {
-            const dropzoneHighlight = {
-                onChoose: function (evt) { document.querySelectorAll('.dropzone').forEach(d => d.classList.add('highlight')); },
-                onUnchoose: function (evt) { document.querySelectorAll('.dropzone').forEach(d => d.classList.remove('highlight')); }
-            };
-
-            ['q5', 'q6'].forEach(group => {
-                const src = document.getElementById(`source-${group}`);
-                if(src){
-                    new Sortable(src, {
-                        group: { name: group, put: true }, animation: 150, sort: false, delay: 300, delayOnTouchOnly: true, ...dropzoneHighlight
-                    });
-                }
-            });
+            // Placeholder: Dipertahankan untuk mencegah error referensi dari fungsi sebelumnya
         }
 
         function confirmSubmit() {
             Swal.fire({ 
-                title: 'Kirim Jawaban?', text: "Pastikan seluruh soal telah terjawab. Ujian tidak bisa diulang!", 
-                icon: 'question', showCancelButton: true, confirmButtonColor: '#4f46e5', cancelButtonColor: '#ef4444',
-                confirmButtonText: 'Ya, Kirim Data!', cancelButtonText: 'Batal' 
+                title: 'Serahkan Arsip Jawaban?', text: "Pastikan seluruh soal telah terjawab. Misi tidak bisa diulang!", 
+                icon: 'question', showCancelButton: true, confirmButtonColor: '#991b1b', cancelButtonColor: '#4b5563',
+                confirmButtonText: 'Ya, Serahkan!', cancelButtonText: 'Batal' 
             }).then((result) => { if (result.isConfirmed) processSubmission(); });
         }
 
@@ -615,8 +622,8 @@
             document.getElementById('exam-screen').classList.remove('blur-screen');
 
             Swal.fire({ 
-                title: 'ANDA DIDISKUALIFIKASI!', text: reason, icon: 'error', allowOutsideClick: false, 
-                confirmButtonText: 'Mengerti & Kirim Sisa Jawaban', confirmButtonColor: '#ef4444'
+                title: 'DIDISKUALIFIKASI / WAKTU HABIS!', text: reason, icon: 'error', allowOutsideClick: false, 
+                confirmButtonText: 'Serahkan Sisa Jawaban', confirmButtonColor: '#991b1b'
             }).then(() => { processSubmission(); });
         }
 
@@ -627,11 +634,11 @@
             document.getElementById('exam-screen').classList.remove('blur-screen');
             
             const btnSubmit = document.getElementById('btn-submit');
-            btnSubmit.disabled = true; btnSubmit.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Memproses...`;
+            btnSubmit.disabled = true; btnSubmit.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Menyandikan Data...`;
 
             const form = document.getElementById('exam-form'); const formData = new FormData(form);
             
-            // Loop secara dinamis untuk mengambil jawaban dari 40 soal
+            // Loop dinamis 40 Soal
             const dataToSubmit = {
                 type: "ujian", timestamp: new Date().toLocaleString('id-ID'),
                 nama: studentName, kelas: studentClass, pelanggaran: cheatCount
@@ -641,7 +648,7 @@
                 dataToSubmit['q' + i] = formData.get('q' + i) || '';
             }
 
-            Swal.fire({ title: 'Mengirim Jawaban...', html: 'Jangan tutup aplikasi ini.', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+            Swal.fire({ title: 'Menyandikan Data Ke Pusat...', html: 'Jangan tutup markas (aplikasi) ini.', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
 
             fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -650,27 +657,27 @@
                 localStorage.setItem('pts_sejarah_selesai', 'true');
                 
                 Swal.fire({ 
-                    icon: 'success', title: 'Ujian Berhasil Dikirim!', 
-                    text: 'Silakan isi masukan sebelum menutup aplikasi.', 
-                    allowOutsideClick: false, confirmButtonText: 'Lanjut', confirmButtonColor: '#4f46e5'
+                    icon: 'success', title: 'Misi Selesai!', 
+                    text: 'Dokumen evaluasi berhasil diserahkan. Silakan isi umpan balik.', 
+                    allowOutsideClick: false, confirmButtonText: 'Lanjut', confirmButtonColor: '#991b1b'
                 }).then(() => {
                     Swal.fire({
-                        title: 'Kirim Masukan',
+                        title: 'Kirim Umpan Balik',
                         html: `
-                            <p class="text-sm text-gray-600 mb-3">Bagaimana pengalaman Anda menggunakan aplikasi ujian ini?</p>
-                            <select id="swal-rating" class="w-full p-3 border border-gray-300 rounded-lg mb-3 focus:ring-indigo-500">
+                            <p class="text-sm text-gray-600 mb-3">Bagaimana pengalaman Anda menggunakan aplikasi evaluasi ini?</p>
+                            <select id="swal-rating" class="w-full p-3 border border-gray-300 rounded-lg mb-3 focus:ring-red-800">
                                 <option value="5">⭐⭐⭐⭐⭐ (Sangat Bagus)</option>
                                 <option value="4">⭐⭐⭐⭐ (Bagus)</option>
                                 <option value="3">⭐⭐⭐ (Cukup)</option>
                                 <option value="2">⭐⭐ (Kurang)</option>
                                 <option value="1">⭐ (Sangat Kurang)</option>
                             </select>
-                            <textarea id="swal-feedback" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500" rows="3" placeholder="Ketik kritik, saran, atau kendala Anda di sini..."></textarea>
+                            <textarea id="swal-feedback" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-red-800" rows="3" placeholder="Ketik kritik, saran, atau kendala Anda di sini..."></textarea>
                         `,
                         showCancelButton: true,
                         confirmButtonText: 'Kirim Masukan',
                         cancelButtonText: 'Lewati',
-                        confirmButtonColor: '#4f46e5',
+                        confirmButtonColor: '#991b1b',
                         allowOutsideClick: false,
                         preConfirm: () => {
                             return {
@@ -696,14 +703,24 @@
                     });
                 });
             }).catch(err => {
-                btnSubmit.disabled = false; btnSubmit.innerHTML = `<i class="fas fa-paper-plane text-xl"></i> Selesai & Kirim Jawaban`;
-                Swal.fire({ icon: 'error', title: 'Koneksi Gagal', text: 'Pastikan internet Anda stabil.' });
+                btnSubmit.disabled = false; btnSubmit.innerHTML = `<i class="fas fa-paper-plane"></i> Serahkan Jawaban`;
+                Swal.fire({ icon: 'error', title: 'Koneksi Gagal', text: 'Pastikan jalur komunikasi (internet) stabil.' });
             });
         }
 
         function showFinalScreen() {
             if (document.exitFullscreen) document.exitFullscreen().catch(()=>{});
-            document.body.innerHTML = `<div class="min-h-screen flex items-center justify-center bg-gray-100"><div class="text-center p-8"><i class="fas fa-check-circle text-6xl text-green-500 mb-4"></i><h1 class="text-3xl font-bold text-gray-800 mb-2">Terima Kasih</h1><p class="text-gray-600">Ujian dan masukan telah selesai. Silakan tutup browser Anda.</p></div></div>`;
+            document.body.innerHTML = `
+                <div class="min-h-screen flex items-center justify-center bg-vintage">
+                    <div class="text-center p-10 bg-white border border-[#d4c5b0] rounded-xl shadow-2xl max-w-md w-full mx-4 relative overflow-hidden">
+                        <div class="absolute -top-10 -left-10 text-red-100 opacity-50"><i class="fas fa-flag text-9xl"></i></div>
+                        <div class="relative z-10">
+                            <i class="fas fa-check-circle text-6xl text-red-800 mb-4"></i>
+                            <h1 class="text-3xl font-bold text-gray-900 mb-2 font-serif">Merdeka!</h1>
+                            <p class="text-gray-600 border-t border-gray-200 mt-4 pt-4">Evaluasi telah selesai. Silakan tutup browser Anda.</p>
+                        </div>
+                    </div>
+                </div>`;
         }
     </script>
 </body>

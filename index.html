@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ujian Tengah Semester: Sejarah (Rute Awal Jepang)</title>
+    <title>Simulasi PAT Sejarah Kelas XI Kesehatan</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -17,33 +17,19 @@
         .blur-screen { filter: blur(15px); pointer-events: none; user-select: none; }
         
         /* CSS SortableJS & Drag-Drop */
-        .draggable-item { 
-            cursor: grab; 
-        }
+        .draggable-item { cursor: grab; }
         .draggable-item:active { cursor: grabbing; }
         
-        .dropzone { 
-            min-height: 50px; 
-            border: 2px dashed #94a3b8; 
-            transition: all 0.2s ease; 
-        }
+        .dropzone { min-height: 50px; border: 2px dashed #94a3b8; transition: all 0.2s ease; }
         .dropzone.highlight { background-color: #eff6ff; border-color: #3b82f6; }
         
         .sortable-item { transition: box-shadow 0.2s ease; }
         
         /* Handle untuk tipe soal "Urutkan" */
-        .drag-handle {
-            cursor: grab;
-            padding: 10px;
-            margin-left: -10px;
-        }
+        .drag-handle { cursor: grab; padding: 10px; margin-left: -10px; }
         .drag-handle:active { cursor: grabbing; }
         
-        .sortable-ghost { 
-            opacity: 0.4; 
-            background-color: #e0f2fe; 
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); 
-        }
+        .sortable-ghost { opacity: 0.4; background-color: #e0f2fe; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
         
         .opt-item:hover { background-color: #f8fafc; }
         
@@ -69,7 +55,7 @@
             <div class="text-center mb-6">
                 <i class="fas fa-landmark text-5xl text-indigo-600 mb-3"></i>
                 <h1 class="text-2xl font-bold text-gray-900">Sistem Ujian CBT</h1>
-                <p class="text-gray-500 text-sm">PTS Sejarah: Invasi Awal Jepang</p>
+                <p class="text-gray-500 text-sm">Simulasi PAT Sejarah Kelas XI Kesehatan</p>
             </div>
             
             <div class="space-y-4">
@@ -114,7 +100,7 @@
                         Pelanggaran: <span id="cheat-counter">0</span>/3
                     </div>
                     <div class="bg-indigo-100 text-indigo-800 px-3 py-2 sm:px-4 rounded-lg font-mono font-bold text-lg flex items-center shadow-inner border border-indigo-200">
-                        <i class="far fa-clock mr-2"></i> <span id="timer">40:00</span>
+                        <i class="far fa-clock mr-2"></i> <span id="timer">25:00</span>
                     </div>
                 </div>
             </div>
@@ -126,224 +112,482 @@
 
                     <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
                         <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
-                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> Menjelang tahun 1942, Jepang ibarat ponsel cerdas yang kehabisan baterai karena pasokan minyak bumi mereka dihentikan (diembargo) oleh Amerika Serikat. Dalam kondisi krisis energi tersebut, Jepang harus segera mencari "Powerbank" baru. Daerah manakah di Nusantara yang pertama kali diserang Jepang pada Januari 1942 untuk menyuplai bahan bakar mesin perang mereka?</p>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 1. Alasan logis mengapa wilayah Tarakan, Kalimantan Timur, menjadi target invasi militer pertama Jepang di Indonesia pada tahun 1942 adalah untuk... [cite: 1]</p>
                         <div class="space-y-2 pl-1 sm:pl-4" id="opt-q1">
-                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q1" value="A" class="mt-1"> <span>Batavia (Jakarta)</span></label>
-                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q1" value="B" class="mt-1"> <span>Tarakan (Kalimantan Timur)</span></label>
-                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q1" value="C" class="mt-1"> <span>Surabaya (Jawa Timur)</span></label>
-                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q1" value="D" class="mt-1"> <span>Bukittinggi (Sumatera Barat)</span></label>
-                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q1" value="E" class="mt-1"> <span>Denpasar (Bali)</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q1" value="A" class="mt-1"> <span>Membangun markas tentara terbesar [cite: 2]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q1" value="B" class="mt-1"> <span>Menguasai kilang minyak bumi sebagai bahan bakar perang [cite: 3]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q1" value="C" class="mt-1"> <span>Mencari jalur pelayaran baru ke Australia [cite: 4]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q1" value="D" class="mt-1"> <span>Merampas hasil rempah-rempah yang ditinggalkan Belanda [cite: 5]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q1" value="E" class="mt-1"> <span>Membebaskan tawanan politik Indonesia [cite: 6]</span></label>
                         </div>
                     </div>
 
                     <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
                         <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
-                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> Jepang menerapkan strategi militer "Gurita" atau "Lompat Katak" saat menginvasi Indonesia. Alih-alih langsung menembus Batavia sebagai pusat pemerintahan Belanda, mereka memilih merebut Tarakan, Balikpapan, dan Palembang secara berurutan. Analisis utama dari tujuan taktik ini adalah...</p>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 2. Gerakan massa pertama yang dibentuk oleh pemerintah militer Jepang di awal kedatangannya untuk memikat hati rakyat Indonesia dikenal dengan nama... [cite: 7]</p>
                         <div class="space-y-2 pl-1 sm:pl-4" id="opt-q2">
-                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q2" value="A" class="mt-1"> <span>Menghindari pertempuran laut terbuka dengan armada kapal Sekutu.</span></label>
-                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q2" value="B" class="mt-1"> <span>Memecah belah kekuatan tentara Belanda yang berkumpul di Pulau Sumatera.</span></label>
-                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q2" value="C" class="mt-1"> <span>Melumpuhkan sumber logistik dan energi agar mesin perang Jepang bisa mengepung Jawa.</span></label>
-                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q2" value="D" class="mt-1"> <span>Mencari simpati tokoh-tokoh lokal di luar Jawa agar mau melakukan pemberontakan.</span></label>
-                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q2" value="E" class="mt-1"> <span>Menguasai jalur perdagangan rempah-rempah sebelum direbut oleh militer Inggris.</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q2" value="A" class="mt-1"> <span>Gerakan 3A [cite: 8]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q2" value="B" class="mt-1"> <span>Pusat Tenaga Rakyat (Putera) [cite: 9]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q2" value="C" class="mt-1"> <span>Jawa Hokokai [cite: 10]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q2" value="D" class="mt-1"> <span>Fujinkai [cite: 11]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q2" value="E" class="mt-1"> <span>MIAI [cite: 12]</span></label>
                         </div>
                     </div>
 
                     <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
-                        <div class="mb-3"><span class="bg-teal-100 text-teal-800 text-xs font-bold px-2.5 py-1 rounded-md border border-teal-200"><i class="fas fa-check-square mr-1"></i> Pilihan Ganda Kompleks (Bisa pilih > 1)</span></div>
-                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> Saat pertama kali mendarat, Jepang tidak langsung menunjukkan wajah penjajah. Mereka menggunakan taktik propaganda psikologis (mirip dengan fenomena <i>Love Bombing</i>). Manakah dari pernyataan berikut yang merupakan bukti taktik tersebut?</p>
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 3. Kedatangan tentara Jepang awalnya disambut gembira oleh rakyat Indonesia. [cite: 13] Hal ini disebabkan oleh kuatnya propaganda Jepang yang mengklaim diri mereka sebagai... [cite: 14]</p>
                         <div class="space-y-2 pl-1 sm:pl-4" id="opt-q3">
-                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="checkbox" name="q3" value="A" class="mt-1 rounded text-teal-600"> <span>Memaksa rakyat menyerahkan hasil panen padi sejak hari pertama.</span></label>
-                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="checkbox" name="q3" value="B" class="mt-1 rounded text-teal-600"> <span>Memutarkan lagu kebangsaan Indonesia Raya di radio-radio lokal.</span></label>
-                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="checkbox" name="q3" value="C" class="mt-1 rounded text-teal-600"> <span>Menyebarkan semboyan Gerakan 3A (Jepang Cahaya, Pelindung, Pemimpin Asia).</span></label>
-                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="checkbox" name="q3" value="D" class="mt-1 rounded text-teal-600"> <span>Menutup seluruh fasilitas kesehatan peninggalan Belanda untuk mematikan rakyat.</span></label>
-                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="checkbox" name="q3" value="E" class="mt-1 rounded text-teal-600"> <span>Mengaku sebagai "Saudara Tua" yang datang untuk membebaskan rakyat.</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q3" value="A" class="mt-1"> <span>Pasukan pembebas berkulit putih [cite: 15]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q3" value="B" class="mt-1"> <span>Saudara Tua yang akan membebaskan bangsa Asia dari penjajahan Barat [cite: 16]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q3" value="C" class="mt-1"> <span>Negara terkaya yang akan membagikan sembako [cite: 17]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q3" value="D" class="mt-1"> <span>Utusan dewa yang diramalkan oleh tokoh adat [cite: 18]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q3" value="E" class="mt-1"> <span>Tentara sewaan yang dibayar oleh tokoh nasionalis [cite: 19]</span></label>
                         </div>
                     </div>
 
                     <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
-                        <div class="mb-3"><span class="bg-teal-100 text-teal-800 text-xs font-bold px-2.5 py-1 rounded-md border border-teal-200"><i class="fas fa-check-square mr-1"></i> Pilihan Ganda Kompleks (Bisa pilih > 1)</span></div>
-                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> Belanda yang sudah berkuasa ratusan tahun ternyata runtuh kilat hanya dalam waktu sekitar 3 bulan dan menyerah di Kalijati (Maret 1942). Faktor-faktor yang menyebabkan keruntuhan cepat ini adalah...</p>
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 4. Kebijakan "De-Westernisasi" (penghapusan pengaruh Barat) oleh militer Jepang berdampak besar pada tersendatnya edukasi kesehatan dan keperawatan pribumi, yaitu karena... [cite: 20]</p>
                         <div class="space-y-2 pl-1 sm:pl-4" id="opt-q4">
-                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="checkbox" name="q4" value="A" class="mt-1 rounded text-teal-600"> <span>Terlalu merasa aman (berada di Zona Nyaman) sehingga kurang persiapan menghadapi invasi kilat modern.</span></label>
-                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="checkbox" name="q4" value="B" class="mt-1 rounded text-teal-600"> <span>Persenjataan militer Belanda di Nusantara sudah habis dikirim untuk perang di Eropa.</span></label>
-                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="checkbox" name="q4" value="C" class="mt-1 rounded text-teal-600"> <span>Strategi pertahanan Belanda hanya berpusat di Pulau Jawa dan mengabaikan pengamanan titik laut/luar pulau.</span></label>
-                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="checkbox" name="q4" value="D" class="mt-1 rounded text-teal-600"> <span>Rakyat Nusantara sepenuhnya mengangkat senjata dan membantu tentara Belanda.</span></label>
-                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="checkbox" name="q4" value="E" class="mt-1 rounded text-teal-600"> <span>Mentalitas pasukan Sekutu (termasuk Belanda) sudah jatuh sebelum bertempur habis-habisan.</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q4" value="A" class="mt-1"> <span>Dokter dilarang memeriksa pasien menggunakan stetoskop [cite: 21]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q4" value="B" class="mt-1"> <span>Pelarangan total penggunaan buku-buku medis berbahasa Belanda [cite: 22]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q4" value="C" class="mt-1"> <span>Seluruh rumah sakit diubah menjadi pangkalan militer [cite: 23]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q4" value="D" class="mt-1"> <span>Tenaga medis wajib memakai pakaian adat Jepang [cite: 24]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q4" value="E" class="mt-1"> <span>Pelarangan penggunaan obat-obatan herbal [cite: 25]</span></label>
                         </div>
                     </div>
 
                     <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
-                        <div class="mb-3"><span class="bg-purple-100 text-purple-800 text-xs font-bold px-2.5 py-1 rounded-md border border-purple-200"><i class="fas fa-hand-pointer mr-1"></i> Seret Jawaban (Drag & Drop)</span></div>
-                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> Militer Jepang membagi pasukannya menjadi 3 rute armada utama saat menginvasi Nusantara pada awal 1942. Jodohkanlah nama armada rute tersebut dengan wilayah target pendaratannya! <br><span class="text-sm font-normal text-gray-500">*(Tahan kotak ungu selama sedetik, lalu geser ke dalam kotak putus-putus)*</span></p>
-                        <div class="flex flex-col md:flex-row gap-6">
-                            <div class="w-full md:w-1/3 bg-purple-50 p-4 rounded-xl border border-purple-200">
-                                <div class="space-y-3 min-h-[50px]" id="source-q5">
-                                    <div id="q5_A" data-group="q5" class="draggable-item bg-purple-600 text-white font-medium text-sm p-3 rounded-lg shadow-md text-center">Sulawesi, Maluku, & Bali</div>
-                                    <div id="q5_B" data-group="q5" class="draggable-item bg-purple-600 text-white font-medium text-sm p-3 rounded-lg shadow-md text-center">Sumatera & Jawa Barat</div>
-                                    <div id="q5_C" data-group="q5" class="draggable-item bg-purple-600 text-white font-medium text-sm p-3 rounded-lg shadow-md text-center">Kalimantan (Tarakan & Balikpapan)</div>
-                                </div>
-                            </div>
-                            <div class="w-full md:w-2/3 space-y-3">
-                                <div class="flex flex-col sm:flex-row items-center gap-3 bg-gray-50 p-3 rounded-lg border">
-                                    <div class="flex-1 text-sm font-medium text-gray-700 w-full text-center sm:text-left">Armada Rute Barat (dari Indochina/Vietnam)</div>
-                                    <div class="dropzone w-full sm:w-48 rounded-lg flex items-center justify-center bg-white shadow-inner" data-group="q5"></div>
-                                </div>
-                                <div class="flex flex-col sm:flex-row items-center gap-3 bg-gray-50 p-3 rounded-lg border">
-                                    <div class="flex-1 text-sm font-medium text-gray-700 w-full text-center sm:text-left">Armada Rute Tengah (dari Filipina/Davao)</div>
-                                    <div class="dropzone w-full sm:w-48 rounded-lg flex items-center justify-center bg-white shadow-inner" data-group="q5"></div>
-                                </div>
-                                <div class="flex flex-col sm:flex-row items-center gap-3 bg-gray-50 p-3 rounded-lg border">
-                                    <div class="flex-1 text-sm font-medium text-gray-700 w-full text-center sm:text-left">Armada Rute Timur (dari Filipina/Palau)</div>
-                                    <div class="dropzone w-full sm:w-48 rounded-lg flex items-center justify-center bg-white shadow-inner" data-group="q5"></div>
-                                </div>
-                            </div>
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 5. Untuk memaksimalkan pengerahan sumber daya, Jepang membentuk organisasi Putera (Pusat Tenaga Rakyat). [cite: 26] Tokoh nasionalis yang memimpin organisasi ini adalah... [cite: 27]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q5">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q5" value="A" class="mt-1"> <span>Empat Serangkai [cite: 28]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q5" value="B" class="mt-1"> <span>Tiga Serangkai [cite: 29]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q5" value="C" class="mt-1"> <span>Sembilan Wali [cite: 30]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q5" value="D" class="mt-1"> <span>BPUPKI [cite: 31]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q5" value="E" class="mt-1"> <span>Panitia Sembilan [cite: 32]</span></label>
                         </div>
                     </div>
 
                     <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
-                        <div class="mb-3"><span class="bg-purple-100 text-purple-800 text-xs font-bold px-2.5 py-1 rounded-md border border-purple-200"><i class="fas fa-hand-pointer mr-1"></i> Seret Jawaban (Drag & Drop)</span></div>
-                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> Mari kita refleksikan sejarah dengan bahasa hari ini. Jodohkan peristiwa sejarah berikut dengan istilah psikologi/remaja kekinian yang paling tepat!</p>
-                        <div class="flex flex-col md:flex-row gap-6">
-                            <div class="w-full md:w-1/3 bg-purple-50 p-4 rounded-xl border border-purple-200">
-                                <div class="space-y-3 min-h-[50px]" id="source-q6">
-                                    <div id="q6_A" data-group="q6" class="draggable-item bg-purple-600 text-white font-medium text-sm p-3 rounded-lg shadow-md text-center">Love Bombing</div>
-                                    <div id="q6_B" data-group="q6" class="draggable-item bg-purple-600 text-white font-medium text-sm p-3 rounded-lg shadow-md text-center">High Value Asset</div>
-                                    <div id="q6_C" data-group="q6" class="draggable-item bg-purple-600 text-white font-medium text-sm p-3 rounded-lg shadow-md text-center">Zona Nyaman</div>
-                                </div>
-                            </div>
-                            <div class="w-full md:w-2/3 space-y-3">
-                                <div class="flex flex-col sm:flex-row items-center gap-3 bg-gray-50 p-3 rounded-lg border">
-                                    <div class="flex-1 text-sm font-medium text-gray-700 w-full text-center sm:text-left">Sikap Belanda yang terlalu santai karena sudah lama berkuasa.</div>
-                                    <div class="dropzone w-full sm:w-48 rounded-lg flex items-center justify-center bg-white shadow-inner" data-group="q6"></div>
-                                </div>
-                                <div class="flex flex-col sm:flex-row items-center gap-3 bg-gray-50 p-3 rounded-lg border">
-                                    <div class="flex-1 text-sm font-medium text-gray-700 w-full text-center sm:text-left">Propaganda Jepang yang bersikap sangat manis di awal kedatangan.</div>
-                                    <div class="dropzone w-full sm:w-48 rounded-lg flex items-center justify-center bg-white shadow-inner" data-group="q6"></div>
-                                </div>
-                                <div class="flex flex-col sm:flex-row items-center gap-3 bg-gray-50 p-3 rounded-lg border">
-                                    <div class="flex-1 text-sm font-medium text-gray-700 w-full text-center sm:text-left">Nusantara yang terus diperebutkan karena kaya SDA.</div>
-                                    <div class="dropzone w-full sm:w-48 rounded-lg flex items-center justify-center bg-white shadow-inner" data-group="q6"></div>
-                                </div>
-                            </div>
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 6. Sistem pengawasan sosial yang mewajibkan 10 hingga 20 kepala keluarga berada dalam satu kelompok RT di masa penjajahan Jepang disebut... [cite: 33]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q6">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q6" value="A" class="mt-1"> <span>Kempeitai [cite: 34]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q6" value="B" class="mt-1"> <span>Kumiai [cite: 35]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q6" value="C" class="mt-1"> <span>Tonarigumi [cite: 36]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q6" value="D" class="mt-1"> <span>Seikerei [cite: 37]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q6" value="E" class="mt-1"> <span>Keibodan [cite: 38]</span></label>
                         </div>
                     </div>
 
                     <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
-                        <div class="mb-3"><span class="bg-orange-100 text-orange-800 text-xs font-bold px-2.5 py-1 rounded-md border border-orange-200"><i class="fas fa-list-ol mr-1"></i> Urutkan Jawaban</span></div>
-                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> Urutkan rentetan peristiwa di bawah ini dari yang paling awal (atas) hingga yang paling akhir (bawah), mulai dari awal mula krisis hingga jatuhnya kekuasaan Belanda! <br><span class="text-sm text-gray-500 font-normal">*(Sentuh dan tahan ikon garis tiga di sebelah kiri, lalu geser ke atas/bawah)*</span></p>
-                        <ul class="sortable-list space-y-3 p-2" id="sort-q7">
-                            <li class="sortable-item bg-white border-2 border-gray-200 p-3 rounded-lg shadow-sm flex items-center gap-4 select-none" data-id="A"><i class="fas fa-grip-lines text-gray-400 text-xl drag-handle active:text-orange-500"></i><span class="text-sm font-medium text-gray-700">Jepang mendarat di Tarakan untuk merebut sumur minyak.</span></li>
-                            <li class="sortable-item bg-white border-2 border-gray-200 p-3 rounded-lg shadow-sm flex items-center gap-4 select-none" data-id="B"><i class="fas fa-grip-lines text-gray-400 text-xl drag-handle active:text-orange-500"></i><span class="text-sm font-medium text-gray-700">Amerika Serikat melakukan embargo minyak kepada Jepang.</span></li>
-                            <li class="sortable-item bg-white border-2 border-gray-200 p-3 rounded-lg shadow-sm flex items-center gap-4 select-none" data-id="C"><i class="fas fa-grip-lines text-gray-400 text-xl drag-handle active:text-orange-500"></i><span class="text-sm font-medium text-gray-700">Belanda menyerah tanpa syarat kepada Jepang di Kalijati.</span></li>
-                            <li class="sortable-item bg-white border-2 border-gray-200 p-3 rounded-lg shadow-sm flex items-center gap-4 select-none" data-id="D"><i class="fas fa-grip-lines text-gray-400 text-xl drag-handle active:text-orange-500"></i><span class="text-sm font-medium text-gray-700">Jepang menghancurkan pangkalan laut AS di Pearl Harbor.</span></li>
-                        </ul>
-                    </div>
-
-                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
-                        <div class="mb-3"><span class="bg-orange-100 text-orange-800 text-xs font-bold px-2.5 py-1 rounded-md border border-orange-200"><i class="fas fa-list-ol mr-1"></i> Urutkan Jawaban</span></div>
-                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> Rakyat sempat tertipu oleh propaganda Jepang. Agar kalian tidak mengulangi sejarah saat menerima info/tawaran manis (misal investasi online/lowongan kerja), urutkan langkah bernalar kritis berikut dari tahap awal hingga eksekusi yang tepat!</p>
-                        <ul class="sortable-list space-y-3 p-2" id="sort-q8">
-                            <li class="sortable-item bg-white border-2 border-gray-200 p-3 rounded-lg shadow-sm flex items-center gap-4 select-none" data-id="A"><i class="fas fa-grip-lines text-gray-400 text-xl drag-handle active:text-orange-500"></i><span class="text-sm font-medium text-gray-700">Mengambil keputusan akhir dengan penuh kesadaran dan perlindungan diri.</span></li>
-                            <li class="sortable-item bg-white border-2 border-gray-200 p-3 rounded-lg shadow-sm flex items-center gap-4 select-none" data-id="B"><i class="fas fa-grip-lines text-gray-400 text-xl drag-handle active:text-orange-500"></i><span class="text-sm font-medium text-gray-700">Menerima info/tawaran yang terlihat sangat menguntungkan di awal.</span></li>
-                            <li class="sortable-item bg-white border-2 border-gray-200 p-3 rounded-lg shadow-sm flex items-center gap-4 select-none" data-id="C"><i class="fas fa-grip-lines text-gray-400 text-xl drag-handle active:text-orange-500"></i><span class="text-sm font-medium text-gray-700">Melakukan verifikasi data dan mencari tahu motif di balik tawaran tersebut.</span></li>
-                            <li class="sortable-item bg-white border-2 border-gray-200 p-3 rounded-lg shadow-sm flex items-center gap-4 select-none" data-id="D"><i class="fas fa-grip-lines text-gray-400 text-xl drag-handle active:text-orange-500"></i><span class="text-sm font-medium text-gray-700">Menahan emosi gembira berlebih dan tidak langsung mengiyakan (Skeptis).</span></li>
-                        </ul>
-                    </div>
-
-                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
-                        <div class="mb-3"><span class="bg-rose-100 text-rose-800 text-xs font-bold px-2.5 py-1 rounded-md border border-rose-200"><i class="fas fa-balance-scale mr-1"></i> Benar atau Salah</span></div>
-                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> Evaluasi pernyataan mengenai taktik invasi militer Jepang berikut, lalu pilih "B" jika Benar atau "S" jika Salah untuk masing-masing pernyataan!</p>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-sm text-left text-gray-700 border-collapse">
-                                <thead>
-                                    <tr class="bg-gray-100 border-b-2">
-                                        <th class="p-3 w-3/4 font-semibold">Pernyataan Analisis</th>
-                                        <th class="p-3 text-center font-bold text-green-700">B</th>
-                                        <th class="p-3 text-center font-bold text-red-700">S</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="border-b hover:bg-gray-50">
-                                        <td class="p-3 leading-relaxed">Jepang langsung mengerahkan seluruh pasukan intinya ke Batavia untuk menangkap Gubernur Jenderal Belanda.</td>
-                                        <td class="p-3 text-center"><input type="radio" name="q9_1" value="B" class="w-5 h-5 cursor-pointer accent-green-600"></td>
-                                        <td class="p-3 text-center"><input type="radio" name="q9_1" value="S" class="w-5 h-5 cursor-pointer accent-red-600"></td>
-                                    </tr>
-                                    <tr class="border-b hover:bg-gray-50">
-                                        <td class="p-3 leading-relaxed">Daerah Tarakan dan Balikpapan menjadi target vital di awal invasi murni karena kekayaan tambang minyak buminya.</td>
-                                        <td class="p-3 text-center"><input type="radio" name="q9_2" value="B" class="w-5 h-5 cursor-pointer accent-green-600"></td>
-                                        <td class="p-3 text-center"><input type="radio" name="q9_2" value="S" class="w-5 h-5 cursor-pointer accent-red-600"></td>
-                                    </tr>
-                                    <tr class="border-b hover:bg-gray-50">
-                                        <td class="p-3 leading-relaxed">Penerjunan pasukan payung di Palembang bertujuan mengamankan kilang minyak agar tidak dihancurkan Belanda yang mundur (Bumi Hangus).</td>
-                                        <td class="p-3 text-center"><input type="radio" name="q9_3" value="B" class="w-5 h-5 cursor-pointer accent-green-600"></td>
-                                        <td class="p-3 text-center"><input type="radio" name="q9_3" value="S" class="w-5 h-5 cursor-pointer accent-red-600"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 7. Eksploitasi pengerahan tenaga kerja manusia secara besar-besaran, yang sering kali berujung pada penderitaan fisik bagi rakyat Indonesia zaman Jepang, disebut... [cite: 39]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q7">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q7" value="A" class="mt-1"> <span>Kerja Rodi [cite: 40]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q7" value="B" class="mt-1"> <span>Romusha [cite: 41]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q7" value="C" class="mt-1"> <span>Heiho [cite: 42]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q7" value="D" class="mt-1"> <span>Cultuurstelsel [cite: 43]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q7" value="E" class="mt-1"> <span>Jugun Ianfu [cite: 44]</span></label>
                         </div>
                     </div>
 
                     <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
-                        <div class="mb-3"><span class="bg-rose-100 text-rose-800 text-xs font-bold px-2.5 py-1 rounded-md border border-rose-200"><i class="fas fa-balance-scale mr-1"></i> Benar atau Salah</span></div>
-                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> Berdasarkan materi keruntuhan Hindia Belanda dan taktik Jepang, tentukan kebenaran dari poin refleksi sikap berikut ini!</p>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-sm text-left text-gray-700 border-collapse">
-                                <thead>
-                                    <tr class="bg-gray-100 border-b-2">
-                                        <th class="p-3 w-3/4 font-semibold">Pernyataan Reflektif</th>
-                                        <th class="p-3 text-center font-bold text-green-700">B</th>
-                                        <th class="p-3 text-center font-bold text-red-700">S</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="border-b hover:bg-gray-50">
-                                        <td class="p-3 leading-relaxed">Kekalahan kilat Belanda membuktikan bahwa bertahan di "Zona Nyaman" tanpa <i>upgrade skill</i> akan membuat kita mudah digeser oleh pesaing.</td>
-                                        <td class="p-3 text-center"><input type="radio" name="q10_1" value="B" class="w-5 h-5 cursor-pointer accent-green-600"></td>
-                                        <td class="p-3 text-center"><input type="radio" name="q10_1" value="S" class="w-5 h-5 cursor-pointer accent-red-600"></td>
-                                    </tr>
-                                    <tr class="border-b hover:bg-gray-50">
-                                        <td class="p-3 leading-relaxed">Semboyan Gerakan 3A adalah bukti kuat bahwa sejak awal Jepang memiliki niat yang murni dan tulus untuk memajukan pendidikan Nusantara.</td>
-                                        <td class="p-3 text-center"><input type="radio" name="q10_2" value="B" class="w-5 h-5 cursor-pointer accent-green-600"></td>
-                                        <td class="p-3 text-center"><input type="radio" name="q10_2" value="S" class="w-5 h-5 cursor-pointer accent-red-600"></td>
-                                    </tr>
-                                    <tr class="border-b hover:bg-gray-50">
-                                        <td class="p-3 leading-relaxed">Sejarah membuktikan bahwa kualitas SDM dan SDA Indonesia sangat berharga, sehingga sebagai pemuda kita harus kompeten agar tidak dimanfaatkan pihak luar.</td>
-                                        <td class="p-3 text-center"><input type="radio" name="q10_3" value="B" class="w-5 h-5 cursor-pointer accent-green-600"></td>
-                                        <td class="p-3 text-center"><input type="radio" name="q10_3" value="S" class="w-5 h-5 cursor-pointer accent-red-600"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 8. Angka mortalitas (kematian) yang sangat tinggi di masa Jepang sangat dipengaruhi oleh hancurnya sistem kesehatan masyarakat. [cite: 45] Penyebab utamanya adalah... [cite: 46]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q8">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q8" value="A" class="mt-1"> <span>Rakyat tidak percaya pada pengobatan medis modern [cite: 47]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q8" value="B" class="mt-1"> <span>Semua perawat dikirim ke Jepang [cite: 48]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q8" value="C" class="mt-1"> <span>Penyitaan paksa bahan pangan pokok dan obat-obatan (seperti kina) oleh militer [cite: 49]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q8" value="D" class="mt-1"> <span>Cuaca ekstrem yang menyebabkan gagal panen [cite: 50]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q8" value="E" class="mt-1"> <span>Pemberontakan massal di berbagai daerah [cite: 51]</span></label>
                         </div>
                     </div>
 
                     <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
-                        <div class="mb-3"><span class="bg-gray-800 text-white text-xs font-bold px-2.5 py-1 rounded-md"><i class="fas fa-pen mr-1"></i> Soal Uraian (Essay)</span></div>
-                        <label class="font-medium text-gray-800 mb-3 block text-justify leading-relaxed"><span class="q-num font-bold text-lg"></span> Jelaskan alasan utama mengapa Jepang menyasar daerah-daerah pinggiran seperti Tarakan dan Balikpapan terlebih dahulu sebelum memusatkan serangan ke ibu kota Hindia Belanda di Pulau Jawa! <br><span class="text-sm font-normal text-blue-600">*(Gunakan kata kunci "Krisis Energi" dan "Bahan Bakar" dalam jawabanmu).*</span></label>
-                        <textarea name="q11" rows="3" class="w-full p-4 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 bg-gray-50 focus:bg-white transition-colors" placeholder="Ketik jawaban analisis Anda di sini..."></textarea>
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 9. Organisasi perempuan bentukan Jepang yang diwajibkan bagi wanita berusia minimal 15 tahun ke atas (seusia siswi SMK) adalah... [cite: 52]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q9">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q9" value="A" class="mt-1"> <span>Seinendan [cite: 53]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q9" value="B" class="mt-1"> <span>Fujinkai [cite: 54]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q9" value="C" class="mt-1"> <span>Gakutotai [cite: 55]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q9" value="D" class="mt-1"> <span>PETA [cite: 56]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q9" value="E" class="mt-1"> <span>Barisan Pelopor [cite: 57]</span></label>
+                        </div>
                     </div>
 
                     <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
-                        <div class="mb-3"><span class="bg-gray-800 text-white text-xs font-bold px-2.5 py-1 rounded-md"><i class="fas fa-pen mr-1"></i> Soal Uraian (Essay)</span></div>
-                        <label class="font-medium text-gray-800 mb-3 block text-justify leading-relaxed"><span class="q-num font-bold text-lg"></span> Ketika tentara Jepang pertama kali mendarat, banyak rakyat Indonesia yang menyambut mereka dengan gembira dan sorak-sorai di pinggir jalan. Analisislah mengapa fenomena psikologis ini bisa terjadi dengan melihat kondisi penderitaan rakyat di era Belanda dan hubungannya dengan taktik propaganda awal Jepang!</label>
-                        <textarea name="q12" rows="4" class="w-full p-4 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 bg-gray-50 focus:bg-white transition-colors" placeholder="Ketik jawaban analisis Anda di sini..."></textarea>
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 10. Meskipun tidak terjun langsung mengangkat senjata, kaum perempuan di masa Jepang memiliki peran krusial di garis belakang, yakni... [cite: 58]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q10">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q10" value="A" class="mt-1"> <span>Melatih strategi perang gerilya [cite: 59]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q10" value="B" class="mt-1"> <span>Mengumpulkan senjata sitaan dari Sekutu [cite: 60]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q10" value="C" class="mt-1"> <span>Menjadi tim P3K (pertolongan medis darurat) dan mengelola dapur umum [cite: 61]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q10" value="D" class="mt-1"> <span>Menjadi perunding diplomasi dengan Belanda [cite: 62]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q10" value="E" class="mt-1"> <span>Mengajarkan doktrin fasisme di sekolah-sekolah [cite: 63]</span></label>
+                        </div>
                     </div>
 
                     <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
-                        <div class="mb-3"><span class="bg-gray-800 text-white text-xs font-bold px-2.5 py-1 rounded-md"><i class="fas fa-pen mr-1"></i> Soal Uraian (Essay)</span></div>
-                        <label class="font-medium text-gray-800 mb-3 block text-justify leading-relaxed"><span class="q-num font-bold text-lg"></span> Pemerintah Hindia Belanda hancur lebur oleh strategi kilat Jepang hanya dalam hitungan bulan karena terlalu bersantai di "Zona Nyaman" (Comfort Zone) akibat kekuasaan 300 tahun. Jika dianalogikan dengan kehidupanmu saat ini, apa bahaya besar dari sikap merasa paling aman (<i>overconfidence</i>) terhadap persaingan di masa depan?</label>
-                        <textarea name="q13" rows="3" class="w-full p-4 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 bg-gray-50 focus:bg-white transition-colors" placeholder="Ketik refleksi diri Anda di sini..."></textarea>
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 11. Salah satu dampak positif jangka panjang yang tersisa dari kerasnya sistem pendidikan semi-militer Jepang bagi pemuda Indonesia adalah... [cite: 64]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q11">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q11" value="A" class="mt-1"> <span>Munculnya sikap individualisme yang tinggi [cite: 65]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q11" value="B" class="mt-1"> <span>Terbentuknya mentalitas baja, kedisiplinan, dan jiwa bela negara [cite: 66]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q11" value="C" class="mt-1"> <span>Munculnya keinginan untuk terus berperang [cite: 67]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q11" value="D" class="mt-1"> <span>Rakyat terbiasa menolak perintah atasan [cite: 68]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q11" value="E" class="mt-1"> <span>Berkurangnya rasa hormat kepada tokoh agama [cite: 69]</span></label>
+                        </div>
                     </div>
 
                     <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
-                        <div class="mb-3"><span class="bg-gray-800 text-white text-xs font-bold px-2.5 py-1 rounded-md"><i class="fas fa-pen mr-1"></i> Soal Uraian (Essay)</span></div>
-                        <label class="font-medium text-gray-800 mb-3 block text-justify leading-relaxed"><span class="q-num font-bold text-lg"></span> Bandingkan taktik yang digunakan tentara Belanda dalam bertahan dengan taktik Jepang saat menyerang pada awal tahun 1942. Menurut analisismu, apa kelemahan operasional paling fatal dari militer Belanda yang membuat wilayah mereka direbut begitu cepat dari tangan mereka?</label>
-                        <textarea name="q14" rows="4" class="w-full p-4 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 bg-gray-50 focus:bg-white transition-colors" placeholder="Ketik komparasi dan analisis strategis Anda di sini..."></textarea>
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 12. Pada masa-masa awal, pengerahan tenaga Romusha berjalan lancar dan banyak pemuda mendaftar secara sukarela karena Jepang menggunakan taktik propaganda dengan menjuluki mereka sebagai... [cite: 70]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q12">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q12" value="A" class="mt-1"> <span>Ksatria Nusantara [cite: 71]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q12" value="B" class="mt-1"> <span>Prajurit Ekonomi atau Pahlawan Pekerja [cite: 72]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q12" value="C" class="mt-1"> <span>Pasukan Berani Mati [cite: 73]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q12" value="D" class="mt-1"> <span>Tentara Pembebas [cite: 74]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q12" value="E" class="mt-1"> <span>Saudara Muda Jepang [cite: 75]</span></label>
+                        </div>
                     </div>
 
-                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200 border-l-4 border-l-indigo-500">
-                        <div class="mb-3"><span class="bg-gray-800 text-white text-xs font-bold px-2.5 py-1 rounded-md"><i class="fas fa-pen mr-1"></i> Uraian & Studi Kasus Profesi</span></div>
-                        <label class="font-medium text-gray-800 mb-3 block text-justify leading-relaxed"><span class="q-num font-bold text-lg"></span> Di masa lalu, Indonesia dijajah karena kekayaan alamnya (SDA). Di era modern dan pasar bebas saat ini, model "penjajahan" beralih ke perebutan peluang melalui kualitas Sumber Daya Manusia (SDM), termasuk tenaga medis. <br><br>Sebagai calon <b>Tenaga Kesehatan</b>, strategi "pertahanan diri" spesifik apa yang harus kamu asah mulai hari ini agar karier/profesimu di masa depan tidak kalah bersaing dengan tenaga kesehatan dari luar negeri yang masuk ke Indonesia?</label>
-                        <textarea name="q15" rows="5" class="w-full p-4 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 bg-gray-50 focus:bg-white transition-colors" placeholder="Jabarkan rencana strategi kompetensi keperawatan Anda di masa depan..."></textarea>
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 13. Berdasarkan analisis medis, kondisi mayoritas pekerja Romusha yang mengalami busung lapar (malnutrisi) akut membuktikan bahwa penjajahan Jepang menyebabkan... [cite: 76]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q13">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q13" value="A" class="mt-1"> <span>Suksesnya program kemandirian pangan [cite: 77]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q13" value="B" class="mt-1"> <span>Peningkatan gizi bagi pekerja keras [cite: 78]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q13" value="C" class="mt-1"> <span>Eksploitasi ekonomi dan perampasan sumber kalori rakyat secara sistematis [cite: 79]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q13" value="D" class="mt-1"> <span>Terbentuknya antibodi masyarakat terhadap penyakit [cite: 80]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q13" value="E" class="mt-1"> <span>Keberhasilan distribusi obat-obatan ke desa-desa [cite: 81]</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 14. Fungsi sistem RT ( Tonarigumi ) di masa Jepang sangat berbeda dengan masa kini. [cite: 82] Jika di masa kini RT berfungsi untuk kerukunan dan administrasi, di masa Jepang berfungsi untuk... [cite: 83]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q14">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q14" value="A" class="mt-1"> <span>Menyalurkan bantuan dana pendidikan [cite: 84]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q14" value="B" class="mt-1"> <span>Memata-matai gerak-gerik warga dari potensi perlawanan [cite: 85]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q14" value="C" class="mt-1"> <span>Membentuk tim olahraga antardesa [cite: 86]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q14" value="D" class="mt-1"> <span>Mengkoordinasikan acara perayaan hari besar [cite: 87]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q14" value="E" class="mt-1"> <span>Membagikan hasil panen secara adil [cite: 88]</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 15. Satuan polisi militer rahasia tentara Jepang yang sangat ditakuti karena tidak segan menyiksa tahanan secara brutal adalah... [cite: 89]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q15">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q15" value="A" class="mt-1"> <span>Kamikaze [cite: 90]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q15" value="B" class="mt-1"> <span>Kempeitai [cite: 91]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q15" value="C" class="mt-1"> <span>Seinendan [cite: 92]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q15" value="D" class="mt-1"> <span>Keibodan [cite: 93]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q15" value="E" class="mt-1"> <span>Heiho [cite: 94]</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 16. Lembaga koperasi wajib bentukan militer Jepang yang memonopoli dan merampas hasil panen padi petani adalah... [cite: 95]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q16">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q16" value="A" class="mt-1"> <span>Kumiai [cite: 96]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q16" value="B" class="mt-1"> <span>Jawa Hokokai [cite: 97]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q16" value="C" class="mt-1"> <span>MIAI [cite: 98]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q16" value="D" class="mt-1"> <span>Putera [cite: 99]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q16" value="E" class="mt-1"> <span>Chuo Sangi In [cite: 100]</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 17. Pasukan bersenjata asli bentukan Jepang yang mayoritas perwiranya kelak menjadi tokoh-tokoh penting dalam TNI adalah... [cite: 101]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q17">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q17" value="A" class="mt-1"> <span>Heiho [cite: 102]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q17" value="B" class="mt-1"> <span>PETA (Pembela Tanah Air) [cite: 103]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q17" value="C" class="mt-1"> <span>Barisan Pelopor [cite: 104]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q17" value="D" class="mt-1"> <span>Hizbullah [cite: 105]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q17" value="E" class="mt-1"> <span>Gakutotai [cite: 106]</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 18. Perhatikan data berikut: 1) Kewajiban Seikerei, 2) Penggunaan Bahasa Indonesia meluas, 3) Perampasan padi, 4) Latihan militer pemuda. [cite: 107] Manakah yang termasuk dampak negatif kebijakan militer Jepang yang melanggar hak asasi? [cite: 108]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q18">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q18" value="A" class="mt-1"> <span>1 dan 2 [cite: 109]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q18" value="B" class="mt-1"> <span>2 dan 4 [cite: 110]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q18" value="C" class="mt-1"> <span>1 dan 3 [cite: 111]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q18" value="D" class="mt-1"> <span>3 dan 4 [cite: 112]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q18" value="E" class="mt-1"> <span>2 dan 3 [cite: 113]</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 19. Keuntungan terbesar bagi bangsa Indonesia dari kebijakan militer Jepang (pembentukan Heiho dan PETA) menjelang proklamasi adalah... [cite: 114]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q19">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q19" value="A" class="mt-1"> <span>Jepang meninggalkan banyak emas untuk modal negara [cite: 115]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q19" value="B" class="mt-1"> <span>Pemuda Indonesia mendapatkan bekal keterampilan taktik dan strategi militer [cite: 116]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q19" value="C" class="mt-1"> <span>Pemuda dibebaskan dari kewajiban pajak [cite: 117]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q19" value="D" class="mt-1"> <span>Diberikannya wilayah kekuasaan militer secara cuma-cuma [cite: 118]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q19" value="E" class="mt-1"> <span>Mendapatkan perlindungan mutlak dari serangan sekutu [cite: 119]</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 20. Banyak pekerja Romusha meninggal akibat "Trias Masalah Kesehatan", yang meliputi... [cite: 120]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q20">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q20" value="A" class="mt-1"> <span>Demam berdarah, stres ringan, dan insomnia [cite: 121]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q20" value="B" class="mt-1"> <span>Malnutrisi (kurang gizi), infeksi penyakit menular, dan kelelahan fisik ekstrem [cite: 122]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q20" value="C" class="mt-1"> <span>Kanker, penyakit jantung, dan kolesterol [cite: 123]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q20" value="D" class="mt-1"> <span>Gagal ginjal, patah tulang, dan keracunan air [cite: 124]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q20" value="E" class="mt-1"> <span>Obesitas, hipertensi, dan diabetes [cite: 125]</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 21. Saat terdesak oleh pasukan Sekutu di Perang Pasifik pada tahun 1944, Jepang mengeluarkan "Janji Koiso" dengan tujuan utama... [cite: 126]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q21">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q21" value="A" class="mt-1"> <span>Mengakui kekalahan perang di mata dunia [cite: 127]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q21" value="B" class="mt-1"> <span>Meminta maaf kepada bangsa Indonesia atas eksploitasi [cite: 128]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q21" value="C" class="mt-1"> <span>Menarik simpati rakyat Indonesia agar tetap mau membantu Jepang berperang [cite: 129]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q21" value="D" class="mt-1"> <span>Menyerahkan kekuasaan langsung kepada Soekarno [cite: 130]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q21" value="E" class="mt-1"> <span>Mengajak Belanda berunding di Indonesia [cite: 131]</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 22. Sebagai adaptasi terhadap larangan ketat penggunaan literatur asing oleh Jepang, langkah progresif yang diambil oleh para tenaga medis dan dokter pribumi saat itu adalah... [cite: 132]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q22">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q22" value="A" class="mt-1"> <span>Menolak merawat pasien asal Jepang [cite: 133]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q22" value="B" class="mt-1"> <span>Menggunakan metode pengobatan supranatural [cite: 134]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q22" value="C" class="mt-1"> <span>Memperkaya dan membakukan istilah-istilah medis ke dalam Bahasa Indonesia [cite: 135]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q22" value="D" class="mt-1"> <span>Menghentikan seluruh kegiatan operasi bedah [cite: 136]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q22" value="E" class="mt-1"> <span>Mogok kerja massal di seluruh rumah sakit [cite: 137]</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 23. Karakteristik yang membedakan organisasi Jawa Hokokai dengan organisasi Putera adalah... [cite: 138]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q23">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q23" value="A" class="mt-1"> <span>Jawa Hokokai dipimpin langsung oleh tokoh nasionalis Indonesia [cite: 139]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q23" value="B" class="mt-1"> <span>Jawa Hokokai dikhususkan untuk masyarakat di luar pulau Jawa [cite: 140]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q23" value="C" class="mt-1"> <span>Jawa Hokokai berada di bawah komando langsung pejabat militer Jepang untuk penyerahan barang bakti [cite: 141]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q23" value="D" class="mt-1"> <span>Jawa Hokokai adalah organisasi politik yang bebas mengkritik Jepang [cite: 142]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q23" value="E" class="mt-1"> <span>Jawa Hokokai dibentuk untuk melawan Sekutu secara diplomasi [cite: 143]</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 24. Kelangkaan tekstil akibat blokade perang memaksa rakyat Indonesia di masa Jepang menggunakan bahan gatal yang memicu penyakit infeksi kulit ( kudis / scabies ), yaitu baju yang terbuat dari... [cite: 144]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q24">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q24" value="A" class="mt-1"> <span>Kulit sapi [cite: 145]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q24" value="B" class="mt-1"> <span>Daun pisang [cite: 146]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q24" value="C" class="mt-1"> <span>Karung goni basah dan lembaran karet [cite: 147]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q24" value="D" class="mt-1"> <span>Kain katun kasar [cite: 148]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q24" value="E" class="mt-1"> <span>Kain sutra bekas [cite: 149]</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 25. Dalam perspektif mitigasi kesehatan masyarakat (seperti saat menghadapi pandemi COVID-19 lalu), struktur masa Jepang manakah yang secara fungsi sosial relevan diadopsi untuk memantau kesehatan warga di tingkat akar rumput? [cite: 150]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q25">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q25" value="A" class="mt-1"> <span>Seikerei [cite: 151]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q25" value="B" class="mt-1"> <span>Tonarigumi (RT) [cite: 152]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q25" value="C" class="mt-1"> <span>Kempeitai [cite: 153]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q25" value="D" class="mt-1"> <span>Romusha [cite: 154]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q25" value="E" class="mt-1"> <span>Kumiai [cite: 155]</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 26. Tokoh pergerakan nasional yang berinisiatif mengirim surat permohonan kepada pemerintah Jepang agar segera membentuk tentara sukarela (PETA) adalah... [cite: 156]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q26">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q26" value="A" class="mt-1"> <span>R.A. Kartini [cite: 157]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q26" value="B" class="mt-1"> <span>Ki Hajar Dewantara [cite: 158]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q26" value="C" class="mt-1"> <span>Gatot Mangkoepradja [cite: 159]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q26" value="D" class="mt-1"> <span>Ahmad Subardjo [cite: 160]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q26" value="E" class="mt-1"> <span>Sutan Sjahrir [cite: 161]</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 27. Penderitaan rakyat yang tidak tertahankan memicu pemberontakan besar prajurit PETA di Blitar pada Februari 1945, yang dikomandoi oleh... [cite: 162]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q27">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q27" value="A" class="mt-1"> <span>Jenderal Sudirman [cite: 163]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q27" value="B" class="mt-1"> <span>Oerip Soemohardjo [cite: 164]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q27" value="C" class="mt-1"> <span>Shodanco Supriyadi [cite: 165]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q27" value="D" class="mt-1"> <span>KH. Zainal Mustafa [cite: 166]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q27" value="E" class="mt-1"> <span>Teuku Hamid [cite: 167]</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 28. Barisan pemuda didikan Jepang yang dilatih semi-militer dengan tugas utama mempertahankan desa masing-masing sebagai garda belakang adalah... [cite: 168]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q28">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q28" value="A" class="mt-1"> <span>Heiho [cite: 169]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q28" value="B" class="mt-1"> <span>Seinendan [cite: 170]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q28" value="C" class="mt-1"> <span>Kempeitai [cite: 171]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q28" value="D" class="mt-1"> <span>Putera [cite: 172]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q28" value="E" class="mt-1"> <span>Chuo Sangi In [cite: 173]</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 29. Penderitaan di masa Jepang sering disebut sebagai titik balik pergerakan nasional menuju kemerdekaan karena... [cite: 174]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q29">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q29" value="A" class="mt-1"> <span>Jepang berjanji memberikan hadiah kemerdekaan dengan cepat [cite: 175]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q29" value="B" class="mt-1"> <span>Penderitaan yang merata menyatukan tekad pemuda tanpa memandang suku dan daerah untuk merdeka [cite: 176]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q29" value="C" class="mt-1"> <span>Jepang memaksa seluruh pemuda untuk berdamai dengan Belanda [cite: 177]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q29" value="D" class="mt-1"> <span>Banyak tokoh politik yang diberikan jabatan tinggi di militer Jepang [cite: 178]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q29" value="E" class="mt-1"> <span>Masyarakat mulai terbiasa dengan gaya hidup penjajah [cite: 179]</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 30. Sama seperti propaganda Jepang, penyebaran hoaks medis saat ini sangat berbahaya. [cite: 180] Sebagai tenaga kesehatan yang terliterasi sejarah, sikap terbaik dalam menghadapi hoaks tersebut adalah... [cite: 181]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q30">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q30" value="A" class="mt-1"> <span>Ikut menyebarkan demi asas kehati-hatian [cite: 182]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q30" value="B" class="mt-1"> <span>Memverifikasi fakta secara kritis berbasis jurnal/ilmu medis dan memberikan edukasi yang benar [cite: 183]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q30" value="C" class="mt-1"> <span>Mendiamkan saja karena itu bukan urusan perawat [cite: 184]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q30" value="D" class="mt-1"> <span>Menghapus akun media sosial pasien yang menyebarkan hoaks [cite: 185]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q30" value="E" class="mt-1"> <span>Menyalahkan pemerintah atas kurangnya informasi [cite: 186]</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 31. Menyerahnya Jepang kepada Sekutu pada pertengahan Agustus 1945 menciptakan sebuah kondisi kritis di mana tidak ada otoritas penguasa yang sah di Indonesia. [cite: 187] Kondisi darurat ini disebut... [cite: 188]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q31">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q31" value="A" class="mt-1"> <span>Status Quo [cite: 189]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q31" value="B" class="mt-1"> <span>Vacuum of Power [cite: 190]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q31" value="C" class="mt-1"> <span>Laissez-faire [cite: 191]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q31" value="D" class="mt-1"> <span>Coup d'etat [cite: 192]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q31" value="E" class="mt-1"> <span>Devide et Impera [cite: 193]</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 32. Peristiwa Rengasdengklok pada esensi sejarahnya dipicu oleh adanya konflik tajam antara Golongan Tua dan Golongan Muda mengenai... [cite: 194]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q32">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q32" value="A" class="mt-1"> <span>Siapa yang akan menjadi presiden pertama [cite: 195]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q32" value="B" class="mt-1"> <span>Pembagian senjata rampasan dari militer Jepang [cite: 196]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q32" value="C" class="mt-1"> <span>Waktu pelaksanaan dan mekanisme Proklamasi Kemerdekaan [cite: 197]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q32" value="D" class="mt-1"> <span>Tempat penandatanganan teks proklamasi [cite: 198]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q32" value="E" class="mt-1"> <span>Desain bendera kebangsaan yang akan dikibarkan [cite: 199]</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 33. Secara logis, tujuan dari taktik Golongan Muda "mengamankan" Bung Karno dan Bung Hatta jauh ke daerah Rengasdengklok adalah... [cite: 200]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q33">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q33" value="A" class="mt-1"> <span>Menyelamatkan mereka dari incaran peluru nyasar tentara Sekutu [cite: 201]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q33" value="B" class="mt-1"> <span>Mencari dukungan logistik dari petani beras di Karawang [cite: 202]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q33" value="C" class="mt-1"> <span>Menjauhkan kedua tokoh dari pengaruh, intervensi, dan tekanan militer Jepang di Jakarta [cite: 203]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q33" value="D" class="mt-1"> <span>Melaksanakan proklamasi di daerah agar tidak diliput media [cite: 204]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q33" value="E" class="mt-1"> <span>Melatih fisik Soekarno-Hatta dengan latihan militer PETA [cite: 205]</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 34. Momentum paling bersejarah bagi bangsa, yakni pembacaan Teks Proklamasi 17 Agustus 1945, dilaksanakan dengan sederhana di... [cite: 206]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q34">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q34" value="A" class="mt-1"> <span>Istana Merdeka [cite: 207]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q34" value="B" class="mt-1"> <span>Rumah Laksamana Maeda [cite: 208]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q34" value="C" class="mt-1"> <span>Halaman rumah Bung Karno di Jl. Pegangsaan Timur No. 56 [cite: 209]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q34" value="D" class="mt-1"> <span>Lapangan Ikada (Monas) [cite: 210]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q34" value="E" class="mt-1"> <span>Gedung BPUPKI (Pejambon) [cite: 211]</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 35. Situasi panas di Rengasdengklok akhirnya dapat diredakan setelah seorang tokoh dari Golongan Tua datang dan mempertaruhkan nyawanya sebagai jaminan agar proklamasi diwujudkan esok hari. [cite: 212] Tokoh tersebut adalah... [cite: 213]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q35">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q35" value="A" class="mt-1"> <span>Chaerul Saleh [cite: 214]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q35" value="B" class="mt-1"> <span>Sukarni [cite: 215]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q35" value="C" class="mt-1"> <span>Ahmad Subardjo [cite: 216]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q35" value="D" class="mt-1"> <span>Ki Hajar Dewantara [cite: 217]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q35" value="E" class="mt-1"> <span>Wikana [cite: 218]</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 36. Perumusan naskah proklamasi membutuhkan ruang konsentrasi yang aman dari patroli Kempeitai Jepang. [cite: 219] Lokasi yang dipilih sebagai tempat perumusan teks tersebut adalah rumah... [cite: 220]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q36">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q36" value="A" class="mt-1"> <span>Jenderal Terauchi [cite: 221]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q36" value="B" class="mt-1"> <span>Laksamana Tadashi Maeda [cite: 222]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q36" value="C" class="mt-1"> <span>Kaisar Hirohito [cite: 223]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q36" value="D" class="mt-1"> <span>Jenderal Kumakichi Harada [cite: 224]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q36" value="E" class="mt-1"> <span>Hitoshi Shimizu [cite: 225]</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 37. Naskah otentik proklamasi adalah naskah hasil ketikan yang mengalami perbaikan ejaan agar lebih resmi (seperti kata tempoh menjadi tempo). [cite: 226] Tokoh yang mengetik teks tersebut adalah... [cite: 227]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q37">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q37" value="A" class="mt-1"> <span>Sayuti Melik [cite: 228]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q37" value="B" class="mt-1"> <span>B.M. Diah [cite: 229]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q37" value="C" class="mt-1"> <span>S. Suhud [cite: 230]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q37" value="D" class="mt-1"> <span>Latief Hendraningrat [cite: 231]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q37" value="E" class="mt-1"> <span>Sutan Sjahrir [cite: 232]</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 38. Identitas negara berupa Bendera Pusaka Merah Putih yang mengudara saat Proklamasi dijahit dengan tangan oleh... [cite: 233]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q38">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q38" value="A" class="mt-1"> <span>Cut Nyak Dien [cite: 234]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q38" value="B" class="mt-1"> <span>Ibu Fatmawati [cite: 235]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q38" value="C" class="mt-1"> <span>S.K. Trimurti [cite: 236]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q38" value="D" class="mt-1"> <span>R.A. Kartini [cite: 237]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q38" value="E" class="mt-1"> <span>Dewi Sartika [cite: 238]</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 39. Saat rapat perumusan teks proklamasi, kalimat pembuka yang berbunyi "Kami bangsa Indonesia dengan ini menyatakan kemerdekaan Indonesia" disumbangkan pemikirannya oleh... [cite: 239]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q39">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q39" value="A" class="mt-1"> <span>Ir. Soekarno [cite: 240]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q39" value="B" class="mt-1"> <span>Drs. Moh. Hatta [cite: 241]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q39" value="C" class="mt-1"> <span>Ahmad Subardjo [cite: 242]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q39" value="D" class="mt-1"> <span>Radjiman Wedyodiningrat [cite: 243]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q39" value="E" class="mt-1"> <span>Tan Malaka [cite: 244]</span></label>
+                        </div>
+                    </div>
+
+                    <div class="q-block bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+                        <div class="mb-3"><span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded-md border border-blue-200"><i class="fas fa-dot-circle mr-1"></i> Pilihan Ganda</span></div>
+                        <p class="font-medium text-gray-800 mb-4 text-justify"><span class="q-num font-bold text-lg"></span> 40. (HOTS) Di ruang Gawat Darurat (IGD), seorang perawat harus bertindak sigap menghadapi pasien yang tiba-tiba henti jantung (cardiac arrest). [cite: 245] Karakter dan tindakan sejarah yang paling relevan dengan etika tindakan medis cepat ini adalah... [cite: 246]</p>
+                        <div class="space-y-2 pl-1 sm:pl-4" id="opt-q40">
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q40" value="A" class="mt-1"> <span>Sikap Golongan Tua yang menunggu izin resmi militer Jepang sebelum bertindak [cite: 247]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q40" value="B" class="mt-1"> <span>Sikap Golongan Muda yang berani mengambil keputusan darurat, cepat, dan terukur demi menyelamatkan negara dari Vacuum of Power [cite: 248]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q40" value="C" class="mt-1"> <span>Kebijakan Jepang yang menyita obat-obatan untuk kepentingan sendiri [cite: 249]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q40" value="D" class="mt-1"> <span>Strategi Ahmad Subardjo yang hanya memberikan janji manis tanpa tindakan [cite: 250]</span></label>
+                            <label class="opt-item flex items-start gap-3 cursor-pointer p-3 border rounded-lg"><input type="radio" name="q40" value="E" class="mt-1"> <span>Pasrah menunggu dokter datang meskipun nyawa pasien terancam [cite: 251]</span></label>
+                        </div>
                     </div>
 
                 </div> 
@@ -361,7 +605,7 @@
         
         let studentName = "", studentClass = "";
         let cheatCount = 0, examActive = false;
-        let timeLeft = 2400, timerInterval;
+        let timeLeft = 1500, timerInterval; // Disesuaikan menjadi 25 Menit (25 * 60)
         let initialWidth = window.innerWidth;
         let cctvInterval; 
         
@@ -468,7 +712,7 @@
         function randomizeExam() {
             const shuffleElements = (containerId, itemClass) => {
                 const container = document.getElementById(containerId);
-                if (!container) return;
+                if (!container) return; // Prevent break if element is missing
                 const items = Array.from(container.querySelectorAll(itemClass));
                 for (let i = items.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
@@ -477,9 +721,10 @@
                 items.forEach(item => container.appendChild(item)); 
             };
 
-            ['opt-q1','opt-q2','opt-q3','opt-q4'].forEach(id => shuffleElements(id, '.opt-item'));
-            ['source-q5','source-q6'].forEach(id => shuffleElements(id, '.draggable-item'));
-            ['sort-q7','sort-q8'].forEach(id => shuffleElements(id, '.sortable-item'));
+            // Loop and shuffle options for 40 questions dynamically
+            for (let i = 1; i <= 40; i++) {
+                shuffleElements('opt-q' + i, '.opt-item');
+            }
 
             const masterContainer = document.getElementById('all-questions-container');
             const questionBlocks = Array.from(masterContainer.querySelectorAll('.q-block'));
@@ -570,27 +815,35 @@
         });
 
         function initSortableJS() {
+            // Function retained per rule to NOT delete existing features, 
+            // protected with null checks since HTML for these are currently stripped for MCQs layout
             const dropzoneHighlight = {
                 onChoose: function (evt) { document.querySelectorAll('.dropzone').forEach(d => d.classList.add('highlight')); },
                 onUnchoose: function (evt) { document.querySelectorAll('.dropzone').forEach(d => d.classList.remove('highlight')); }
             };
 
             ['q5', 'q6'].forEach(group => {
-                new Sortable(document.getElementById(`source-${group}`), {
-                    group: { name: group, put: true }, animation: 150, sort: false, delay: 300, delayOnTouchOnly: true, ...dropzoneHighlight
-                });
-                document.querySelectorAll(`.dropzone[data-group="${group}"]`).forEach(zone => {
-                    new Sortable(zone, {
-                        group: { name: group, put: function (to) { return to.el.children.length < 1; } },
-                        animation: 150, delay: 300, delayOnTouchOnly: true, ...dropzoneHighlight
+                const sourceEl = document.getElementById(`source-${group}`);
+                if (sourceEl) {
+                    new Sortable(sourceEl, {
+                        group: { name: group, put: true }, animation: 150, sort: false, delay: 300, delayOnTouchOnly: true, ...dropzoneHighlight
                     });
-                });
+                    document.querySelectorAll(`.dropzone[data-group="${group}"]`).forEach(zone => {
+                        new Sortable(zone, {
+                            group: { name: group, put: function (to) { return to.el.children.length < 1; } },
+                            animation: 150, delay: 300, delayOnTouchOnly: true, ...dropzoneHighlight
+                        });
+                    });
+                }
             });
 
             ['sort-q7', 'sort-q8'].forEach(id => {
-                new Sortable(document.getElementById(id), {
-                    animation: 150, handle: '.drag-handle', ghostClass: 'sortable-ghost', delay: 300, delayOnTouchOnly: true
-                });
+                const sortEl = document.getElementById(id);
+                if (sortEl) {
+                    new Sortable(sortEl, {
+                        animation: 150, handle: '.drag-handle', ghostClass: 'sortable-ghost', delay: 300, delayOnTouchOnly: true
+                    });
+                }
             });
         }
 
@@ -625,32 +878,15 @@
 
             const form = document.getElementById('exam-form'); const formData = new FormData(form);
             
-            const getDropAnswers = (group) => {
-                let ans = [];
-                document.querySelectorAll(`[data-group="${group}"].dropzone`).forEach(z => {
-                    ans.push(z.children.length > 0 ? z.children[0].id.replace(`${group}_`, '') : '-');
-                });
-                return ans.join(',');
-            };
-            const getSortAnswers = (id) => Array.from(document.getElementById(id).children).map(li => li.dataset.id).join(',');
-            
-            const getMultiRadio = (baseName, count) => {
-                let res = [];
-                for(let i=1; i<=count; i++) { res.push(formData.get(`${baseName}_${i}`) || '-'); }
-                return res.join(',');
-            };
-
             const dataToSubmit = {
                 type: "ujian", timestamp: new Date().toLocaleString('id-ID'),
-                nama: studentName, kelas: studentClass, pelanggaran: cheatCount,
-                q1: formData.get('q1') || '', q2: formData.get('q2') || '',
-                q3: formData.getAll('q3').join(',') || '', q4: formData.getAll('q4').join(',') || '',
-                q5: getDropAnswers('q5'), q6: getDropAnswers('q6'),
-                q7: getSortAnswers('sort-q7'), q8: getSortAnswers('sort-q8'),
-                q9: getMultiRadio('q9', 3), q10: getMultiRadio('q10', 3),
-                q11: formData.get('q11') || '', q12: formData.get('q12') || '',
-                q13: formData.get('q13') || '', q14: formData.get('q14') || '', q15: formData.get('q15') || ''
+                nama: studentName, kelas: studentClass, pelanggaran: cheatCount
             };
+            
+            // Collect answer values dynamically from q1 to q40
+            for (let i = 1; i <= 40; i++) {
+                dataToSubmit['q' + i] = formData.get('q' + i) || '';
+            }
 
             Swal.fire({ title: 'Mengirim Jawaban...', html: 'Jangan tutup aplikasi ini.', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
 

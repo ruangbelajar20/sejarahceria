@@ -651,10 +651,18 @@
             Swal.fire({ title: 'Menyandikan Data Ke Pusat...', html: 'Jangan tutup markas (aplikasi) ini.', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
 
             fetch(GOOGLE_SCRIPT_URL, {
-                method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                method: 'POST', 
+                /* Hapus mode: 'no-cors' agar frontend bisa membaca balasan skor dari server */
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify(dataToSubmit)
-            }).then(() => {
+            })
+            .then(response => response.json()) // Baca respon dari Apps Script
+            .then(dataServer => {
                 localStorage.setItem('pts_sejarah_selesai', 'true');
+                
+                // Ambil skor dari server
+                let skorSiswa = dataServer.skor || 0;
+                let benarSiswa = dataServer.benar || 0;
                 
                 Swal.fire({ 
                     icon: 'success', title: 'Misi Selesai!', 

@@ -650,13 +650,20 @@
 
             Swal.fire({ title: 'Menyandikan Data Ke Pusat...', html: 'Jangan tutup markas (aplikasi) ini.', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
 
+            // PERUBAHAN DI SINI: Tidak memakai mode: 'no-cors' dan pastikan handle response JSON dengan benar
             fetch(GOOGLE_SCRIPT_URL, {
-                method: 'POST', 
-                /* Hapus mode: 'no-cors' agar frontend bisa membaca balasan skor dari server */
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain;charset=utf-8', 
+                },
                 body: JSON.stringify(dataToSubmit)
             })
-            .then(response => response.json()) // Baca respon dari Apps Script
+            .then(response => {
+                 if (!response.ok) {
+                     throw new Error('Jaringan bermasalah');
+                 }
+                 return response.json(); 
+            })
             .then(dataServer => {
                 localStorage.setItem('pts_sejarah_selesai', 'true');
                 
@@ -666,7 +673,7 @@
                 
                 Swal.fire({ 
                     icon: 'success', title: 'Misi Selesai!', 
-                    text: 'Dokumen evaluasi berhasil diserahkan. Silakan isi umpan balik.', 
+                    html: `Dokumen evaluasi berhasil diserahkan.<br><br><b>Skor Anda: ${skorSiswa}</b><br>Benar: ${benarSiswa} dari 40 soal.<br><br>Silakan isi umpan balik.`, 
                     allowOutsideClick: false, confirmButtonText: 'Lanjut', confirmButtonColor: '#991b1b'
                 }).then(() => {
                     Swal.fire({
@@ -711,11 +718,13 @@
                     });
                 });
             }).catch(err => {
+                // Tangkap Error CORS / Network
+                console.error("Fetch error:", err);
                 btnSubmit.disabled = false; btnSubmit.innerHTML = `<i class="fas fa-paper-plane"></i> Serahkan Jawaban`;
-                Swal.fire({ icon: 'error', title: 'Koneksi Gagal', text: 'Pastikan jalur komunikasi (internet) stabil.' });
+                Swal.fire({ icon: 'error', title: 'Koneksi Gagal', text: 'Gagal menerima skor. Pastikan jalur komunikasi stabil dan pengaturan server benar.' });
             });
         }
-
+        
         function showFinalScreen() {
             if (document.exitFullscreen) document.exitFullscreen().catch(()=>{});
             document.body.innerHTML = `
